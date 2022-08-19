@@ -6,6 +6,7 @@ include { KAIJU } from './modules/KAIJU.nf'
 include { KAIJU2KRONA } from './modules/KAIJU2KRONA.nf'
 include { KRONA2HTML } from './modules/KRONA2HTML.nf'
 include { KAIJU2TABLE } from './modules/KAIJU2TABLE.nf'
+include { KRAKEN2 } from './modules/KRAKEN2.nf'
 
 
 
@@ -32,5 +33,5 @@ workflow {
     KAIJU2KRONA(KAIJU.out.tree, nodes, names)
     KRONA2HTML(KAIJU2KRONA.out.krona)
     KAIJU2TABLE(KAIJU.out.tree, nodes, names)
-    
+    KRAKEN2(BOWTIE2.out.reads, kraken_db)
 }

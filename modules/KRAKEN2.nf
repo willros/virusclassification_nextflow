@@ -19,7 +19,8 @@ process KRAKEN2 {
     --use-mpa-style \
     --use-names \
     --paired \
-    ${reads[0]} ${reads[1]}
+    ${reads[0]} \
+    ${reads[1]}
     """  
     
 }

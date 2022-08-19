@@ -171,6 +171,7 @@ dependencies:
   - zlib=1.2.12
   - zstd=1.4.9
   - pip:
+    - altair==4.2.0
     - appdirs==1.4.4
     - astroid==2.11.7
     - black==22.6.0
@@ -224,6 +225,7 @@ dependencies:
     - tabulate==0.8.10
     - tomli==2.0.1
     - tomlkit==0.11.4
+    - toolz==0.12.0
     - url-normalize==1.4.3
     - werkzeug==2.2.2
     - wrapt==1.14.1
