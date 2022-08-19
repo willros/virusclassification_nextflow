@@ -21,7 +21,7 @@ process BOWTIE2 {
     -1 ${reads[0]} \
     -2 ${reads[1]} \
     -S ${sample_id}_aligned.fastq.gz \
-    --un-conc ${sample_id}_unaligned.fastq.gz \
+    --un-conc ${sample_id}_unaligned.fastq \
     2> ${sample_id}.bowtie.log
     """   
 }

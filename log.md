@@ -60,3 +60,6 @@ kraken2 \
 
 ```
 Above command works! 
+
+**Having problems with the megahit module. It will not save the file where it needs to go, so fiddeling around a little bit there. Otherwise it seems to work.**
+
