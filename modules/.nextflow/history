@@ -1,0 +1,17 @@
+2022-05-20 09:14:18	-	cranky_lavoisier	-	f6ec83b0635804c4cd1b5b1ebcf872d2	e8b02d1c-d7ec-4274-bf5d-7f9b87e8c082	nextflow run FASTP.nf
+2022-05-20 09:14:34	-	compassionate_volta	-	50c331add2bb4084e4a41d04e351ec66	0896dc54-7906-40ae-9358-22ae77382a98	nextflow run FASTP.nf
+2022-05-20 09:15:20	1.6s	gloomy_nightingale	OK	d7cde80c1948e9ee64dc7938c1edd2eb	8af8f725-59ab-4e4c-9485-b9f90dbf6c4f	nextflow run FASTP.nf
+2022-05-20 09:19:22	2.4s	romantic_snyder	ERR	e1ff8dda8428cc29939b9970a5a4349e	f015bdb7-efcc-4634-9dd0-adc8f6ee5c83	nextflow run FASTP.nf
+2022-05-20 09:19:52	2.1s	prickly_stallman	OK	0099b1ccea32028f2839e718e276c7fc	5bf12c6c-0800-466d-a7e9-77d9e1f9ea76	nextflow run FASTP.nf
+2022-05-20 09:20:43	1.9s	sleepy_volta	OK	aca1e1a147001dfa021711fbec158502	edc8b329-7270-42d3-a464-8928baba06be	nextflow run FASTP.nf
+2022-05-20 09:21:15	1.4s	friendly_allen	OK	647eaa4f852efc0aae6d72a4e37a9a24	134aedf0-1799-415e-a50f-81fcb9f5323a	nextflow run FASTP.nf
+2022-05-20 09:22:52	1.6s	jovial_celsius	ERR	6f6efc51024854a0ed793f13e7b66b8d	57fe83e6-bf72-4af3-9805-20fc218649c2	nextflow run FASTP.nf
+2022-05-20 09:24:28	1.6s	high_mahavira	OK	86a32baa28a87f68e66baba2fe7b3708	c1cbd3f8-a57e-482e-9224-901cf392bfd8	nextflow run FASTP.nf
+2022-05-20 09:50:45	-	jolly_meitner	-	51297b8f1f40049e5219d60095dfd089	5dab9006-21ea-4005-ab37-e0974f809bbf	nextflow run FASTP.nf
+2022-05-20 09:51:16	-	romantic_nightingale	-	51297b8f1f40049e5219d60095dfd089	f147cba3-63c3-4dcb-9835-975af7284031	nextflow run FASTP.nf
+2022-05-20 09:51:45	-	lethal_hugle	-	51297b8f1f40049e5219d60095dfd089	a93f5fd3-b8b1-4cc5-92f0-c35e68cb2390	nextflow run FASTP.nf
+2022-05-20 09:51:58	-	angry_lichterman	-	51297b8f1f40049e5219d60095dfd089	ea4b5905-78ce-4eb8-af61-b9e64bbe12a8	nextflow run FASTP.nf -dsl1
+2022-05-20 09:52:10	-	serene_borg	-	51297b8f1f40049e5219d60095dfd089	4e90a074-0042-4ee7-8f88-8098e4ac4201	nextflow run FASTP.nf
+2022-05-20 09:52:27	-	high_turing	-	51297b8f1f40049e5219d60095dfd089	d1d39b34-03c7-46b0-b3f9-e53123263a75	nextflow run FASTP.nf
+2022-05-20 09:53:05	-	tender_kirch	-	51297b8f1f40049e5219d60095dfd089	a96db3e1-baae-4713-8844-e5872ee69ba4	nextflow run FASTP.nf
+2022-05-20 09:53:47	-	desperate_sax	-	51297b8f1f40049e5219d60095dfd089	7943594a-e052-464a-b523-84f7b75ee87a	nextflow run FASTP.nf

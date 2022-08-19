@@ -1,0 +1,48 @@
+May-20 09:24:27.868 [main] DEBUG nextflow.cli.Launcher - $> nextflow run FASTP.nf
+May-20 09:24:27.924 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.04.3
+May-20 09:24:27.980 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+May-20 09:24:27.995 [main] INFO  nextflow.cli.CmdRun - Launching `FASTP.nf` [high_mahavira] DSL2 - revision: 86a32baa28
+May-20 09:24:28.007 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/home/viller/.nextflow/plugins; core-plugins: nf-amazon@1.7.2,nf-azure@0.13.2,nf-console@1.0.3,nf-ga4gh@1.0.3,nf-google@1.1.4,nf-sqldb@0.4.0,nf-tower@1.4.0
+May-20 09:24:28.009 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-20 09:24:28.018 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-20 09:24:28.019 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-20 09:24:28.022 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-20 09:24:28.030 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-20 09:24:28.081 [main] DEBUG nextflow.Session - Session uuid: c1cbd3f8-a57e-482e-9224-901cf392bfd8
+May-20 09:24:28.081 [main] DEBUG nextflow.Session - Run name: high_mahavira
+May-20 09:24:28.082 [main] DEBUG nextflow.Session - Executor pool size: 72
+May-20 09:24:28.112 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.04.3 build 5703
+  Created: 18-05-2022 19:22 UTC (21:22 CEST)
+  System: Linux 5.13.0-40-generic
+  Runtime: Groovy 3.0.10 on OpenJDK 64-Bit Server VM 11.0.15+10-Ubuntu-0ubuntu0.20.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 2583667@cg1 [127.0.1.1]
+  CPUs: 72 - Mem: 376.6 GB (34.2 GB) - Swap: 2 GB (23.1 MB)
+May-20 09:24:28.131 [main] DEBUG nextflow.Session - Work-dir: /home/viller/virusclass/nextflow/modules/work [zfs]
+May-20 09:24:28.131 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /home/viller/virusclass/nextflow/modules/bin
+May-20 09:24:28.139 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-20 09:24:28.149 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-20 09:24:28.167 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-20 09:24:28.176 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 73; maxThreads: 1000
+May-20 09:24:28.310 [main] DEBUG nextflow.Session - Session start invoked
+May-20 09:24:28.901 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-20 09:24:29.031 [main] WARN  nextflow.script.ProcessConfig - The `echo` directive has been deprecated - use to `debug` instead
+May-20 09:24:29.063 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-20 09:24:29.063 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-20 09:24:29.068 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-20 09:24:29.073 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=72; memory=376.6 GB; capacity=72; pollInterval=100ms; dumpInterval=5m
+May-20 09:24:29.165 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: FASTP
+May-20 09:24:29.165 [main] DEBUG nextflow.Session - Ignite dataflow network (2)
+May-20 09:24:29.178 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > FASTP
+May-20 09:24:29.179 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: ../../data/; pattern: *R{1,2}*.fastq.gz; options: [:]
+May-20 09:24:29.184 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+May-20 09:24:29.184 [main] DEBUG nextflow.Session - Session await
+May-20 09:24:29.373 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-20 09:24:29.377 [Task submitter] INFO  nextflow.Session - [1e/d86d1b] Submitted process > FASTP (1)
+May-20 09:24:29.414 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: FASTP (1); status: COMPLETED; exit: 0; error: -; workDir: /home/viller/virusclass/nextflow/modules/work/1e/d86d1b236f4def9206dbd42c74b8f4]
+May-20 09:24:29.451 [main] DEBUG nextflow.Session - Session await > all process finished
+May-20 09:24:29.510 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-20 09:24:29.518 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=20ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=1; peakMemory=0; ]
+May-20 09:24:29.565 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-20 09:24:29.574 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

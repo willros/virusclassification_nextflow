@@ -1,0 +1,71 @@
+May-20 09:50:44.922 [main] DEBUG nextflow.cli.Launcher - $> nextflow run FASTP.nf
+May-20 09:50:44.983 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.04.3
+May-20 09:50:45.039 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+May-20 09:50:45.055 [main] INFO  nextflow.cli.CmdRun - Launching `FASTP.nf` [jolly_meitner] DSL2 - revision: 51297b8f1f
+May-20 09:50:45.070 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/home/viller/.nextflow/plugins; core-plugins: nf-amazon@1.7.2,nf-azure@0.13.2,nf-console@1.0.3,nf-ga4gh@1.0.3,nf-google@1.1.4,nf-sqldb@0.4.0,nf-tower@1.4.0
+May-20 09:50:45.071 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-20 09:50:45.085 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-20 09:50:45.086 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-20 09:50:45.089 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-20 09:50:45.099 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-20 09:50:45.151 [main] DEBUG nextflow.Session - Session uuid: 5dab9006-21ea-4005-ab37-e0974f809bbf
+May-20 09:50:45.151 [main] DEBUG nextflow.Session - Run name: jolly_meitner
+May-20 09:50:45.153 [main] DEBUG nextflow.Session - Executor pool size: 72
+May-20 09:50:45.183 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.04.3 build 5703
+  Created: 18-05-2022 19:22 UTC (21:22 CEST)
+  System: Linux 5.13.0-40-generic
+  Runtime: Groovy 3.0.10 on OpenJDK 64-Bit Server VM 11.0.15+10-Ubuntu-0ubuntu0.20.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 2647272@cg1 [127.0.1.1]
+  CPUs: 72 - Mem: 376.6 GB (34.1 GB) - Swap: 2 GB (23.1 MB)
+May-20 09:50:45.203 [main] DEBUG nextflow.Session - Work-dir: /home/viller/virusclass/nextflow/modules/work [zfs]
+May-20 09:50:45.204 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /home/viller/virusclass/nextflow/modules/bin
+May-20 09:50:45.212 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-20 09:50:45.224 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-20 09:50:45.243 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-20 09:50:45.253 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 73; maxThreads: 1000
+May-20 09:50:45.408 [main] DEBUG nextflow.Session - Session start invoked
+May-20 09:50:45.906 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-20 09:50:45.921 [main] DEBUG nextflow.Session - Session aborted -- Cause: =============================================================================
+=                                WARNING                                    =
+= You are running this script using DSL2 syntax, however it does not        = 
+= contain any 'workflow' definition so there's nothing for Nextflow to run. =
+=                                                                           =
+= If this script was written using Nextflow DSL1 syntax, please add the     = 
+= setting 'nextflow.enable.dsl=1' to the nextflow.config file or use the    =
+= command-line option '-dsl1' when running the pipeline.                    =
+=                                                                           =
+= More details at this link: https://www.nextflow.io/docs/latest/dsl2.html  =
+=============================================================================
+
+May-20 09:50:45.943 [main] DEBUG nextflow.cli.Launcher - Operation aborted
+nextflow.exception.AbortOperationException: =============================================================================
+=                                WARNING                                    =
+= You are running this script using DSL2 syntax, however it does not        = 
+= contain any 'workflow' definition so there's nothing for Nextflow to run. =
+=                                                                           =
+= If this script was written using Nextflow DSL1 syntax, please add the     = 
+= setting 'nextflow.enable.dsl=1' to the nextflow.config file or use the    =
+= command-line option '-dsl1' when running the pipeline.                    =
+=                                                                           =
+= More details at this link: https://www.nextflow.io/docs/latest/dsl2.html  =
+=============================================================================
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:72)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:105)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
+	at nextflow.script.BaseScript.runDsl2(BaseScript.groovy:201)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:217)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:220)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:212)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:120)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:337)
+	at nextflow.cli.Launcher.run(Launcher.groovy:480)
+	at nextflow.cli.Launcher.main(Launcher.groovy:639)
