@@ -1,3 +1,5 @@
+# virusclass_nextflow logfile
+
 ## 2022-08-18
 `To get BOWTIE2 process to run for every output tuple from FASTP, it was cruical to add the index as channel.value, to get the combinatorics!`
 
@@ -41,3 +43,20 @@ The above command works! Why does it not work inside nextflow main.nf?
 ```bash 
 wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20220607.tar.gz
 ```
+
+Trying kraken2 command outside nextflow:
+```bash
+kraken2 \
+    --db /home/viller/virusclass/databases/kraken/standard/ \
+    --report testar.kraken2.report.tsv \
+    --use-mpa-style \
+    --use-names \
+    --paired \
+    /home/viller/virusclass/results/fastp/reads/Dol1_S19_L001_filt_R1.fastq.gz \
+    /home/viller/virusclass/results/fastp/reads/Dol1_S19_L001_filt_R2.fastq.gz
+
+# must unzip the krakendb tar first
+
+
+```
+Above command works! 
