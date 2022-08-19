@@ -20,6 +20,9 @@ nodes = channel.value( params.kaiju_nodes_refseq )
 fmi = channel.value( params.kaiju_fmi_refseq )
 names = channel.value( params.kaiju_names_refseq )
 
+// kraken
+kraken_db = channel.value( params.kraken_db_standard )
+
 
 workflow {
 

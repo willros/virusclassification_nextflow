@@ -36,3 +36,8 @@ kaiju2table -t /home/viller/virusclass/databases/kaiju_db/refseq/nodes.dmp -n /h
 The above command works! Why does it not work inside nextflow main.nf?
 
 **NOW the KAIJU2TABLE works, without me changing anything...** WEIRD!! 
+
+* Download standard kraken database from https://benlangmead.github.io/aws-indexes/k2
+```bash 
+wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20220607.tar.gz
+```
