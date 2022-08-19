@@ -8,8 +8,7 @@ include { KRONA2HTML } from './modules/KRONA2HTML.nf'
 include { KAIJU2TABLE } from './modules/KAIJU2TABLE.nf'
 include { KRAKEN2 } from './modules/KRAKEN2.nf'
 include { MEGAHIT } from './modules/MEGAHIT.nf'
-
-
+include { MEGAHIT2LENGTH } from './modules/MEGAHIT2LENGTH.nf'
 
 
 // input files
@@ -37,4 +36,5 @@ workflow {
     KAIJU2TABLE(KAIJU.out.tree, nodes, names)
     KRAKEN2(BOWTIE2.out.reads, kraken_db)
     MEGAHIT(BOWTIE2.out.reads)
+    MEGAHIT2LENGTH(MEGAHIT.out.assembly)
 }

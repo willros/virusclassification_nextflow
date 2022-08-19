@@ -84,6 +84,7 @@ dependencies:
   - libzlib=1.2.12
   - lz4-c=1.9.3
   - matplotlib-inline=0.1.2
+  - megahit=1.2.9
   - mistune=0.8.4
   - nbclassic=0.3.5
   - nbclient=0.5.13
@@ -183,6 +184,7 @@ dependencies:
     - dill==0.3.5.1
     - docutils==0.19
     - exceptiongroup==1.0.0rc8
+    - fire==0.4.0
     - flask==2.2.2
     - galaxy-containers==21.9.0
     - galaxy-tool-util==21.9.2
@@ -223,6 +225,7 @@ dependencies:
     - smmap==5.0.0
     - sortedcontainers==2.4.0
     - tabulate==0.8.10
+    - termcolor==1.1.0
     - tomli==2.0.1
     - tomlkit==0.11.4
     - toolz==0.12.0
