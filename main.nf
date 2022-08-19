@@ -9,6 +9,7 @@ include { KAIJU2TABLE } from './modules/KAIJU2TABLE.nf'
 include { KRAKEN2 } from './modules/KRAKEN2.nf'
 include { MEGAHIT } from './modules/MEGAHIT.nf'
 include { MEGAHIT2LENGTH } from './modules/MEGAHIT2LENGTH.nf'
+include { METABAT2 } from './modules/METABAT2.nf'
 
 
 // input files
@@ -37,4 +38,5 @@ workflow {
     KRAKEN2(BOWTIE2.out.reads, kraken_db)
     MEGAHIT(BOWTIE2.out.reads)
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
+    METABAT2(MEGAHIT.out.assembly)
 }

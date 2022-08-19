@@ -40,6 +40,7 @@ dependencies:
   - gettext=0.19.8.1
   - glib=2.72.1
   - glib-tools=2.72.1
+  - htslib=1.9
   - icu=68.1
   - idna=3.3
   - ipykernel=6.9.1
@@ -62,6 +63,7 @@ dependencies:
   - krona=2.8.1
   - ld_impl_linux-64=2.38
   - libcurl=7.83.1
+  - libdeflate=1.0
   - libedit=3.1.20210910
   - libev=4.33
   - libffi=3.4.2
@@ -85,6 +87,7 @@ dependencies:
   - lz4-c=1.9.3
   - matplotlib-inline=0.1.2
   - megahit=1.2.9
+  - metabat2=2.15
   - mistune=0.8.4
   - nbclassic=0.3.5
   - nbclient=0.5.13
