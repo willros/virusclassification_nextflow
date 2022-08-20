@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-process BOWTIE2 {    
+process BOWTIE2_UNALIGNED {    
     publishDir("${params.bowtie2_out}/unaligned", pattern: "*unaligned*", mode: 'copy')
     publishDir("${params.bowtie2_out}/log", pattern: "*.log", mode: 'copy')
 
@@ -20,7 +20,7 @@ process BOWTIE2 {
     -x ${index} \
     -1 ${reads[0]} \
     -2 ${reads[1]} \
-    -S ${sample_id}_aligned.fastq.gz \
+    -S ${sample_id}_aligned.fastq \
     --un-conc ${sample_id}_unaligned.fastq \
     2> ${sample_id}.bowtie.log
     """   

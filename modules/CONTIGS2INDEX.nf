@@ -9,7 +9,6 @@ nextflow.enable.dsl=2
     output:
     tuple val(sample_id), path('*.bt2'), emit: index
     
-    
     script:
     """
     bowtie2-build \
