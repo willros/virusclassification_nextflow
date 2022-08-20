@@ -2,8 +2,6 @@
 
 import fire
 
-fasta_file = '../results/megahit/Dol2_S19_L001.contigs.fa'
-
 def rename_contigs(file: str) -> None:
     '''
     Rename the files of contigs from megahit, to look like: >contig_1, >contig_2 etc. 

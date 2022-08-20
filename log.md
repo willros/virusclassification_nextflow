@@ -91,10 +91,19 @@ Command error:
   [Error!] can't open input file Dol1_S19_L001_bins.table.tsv
   [Error!] There are no lines in the abundance depth file or fasta file!
 ```
+**The bam file is generated like: align the raw reads to the assembled contigs** 
+*"First we need to map the reads back against the assembly to get coverage information"*
+
+
 
 Tutorial for binning here: https://www.youtube.com/watch?v=q9U0uTFRsl4&ab_channel=BioinformaticsVirtualCoordinationNetwork
 *https://github.com/edgraham/BinSanity/wiki/Usage*
+-- https://www.hadriengourle.com/tutorials/meta_assembly/
 
 * Wrote python script for renaming fasta files to have headers like: contig_1, contig_2 etc...
 
 
+### METABAT2 requires contigs > 2kb to be accurate. This is usually done by assembly of reads from many different samples from the same site. 
+
+create CONTIGS2INDEX:
+* map the reads back against the assembly to get coverage information 

@@ -7,6 +7,7 @@ process METABAT2 {
 
     input:
     tuple val(sample_id), path(assembly)
+    path(bam)
     
     output:
     tuple val(sample_id), path("*.fasta"), emit: bins
@@ -17,6 +18,7 @@ process METABAT2 {
     """
     metabat2 \
     -i ${assembly} \
+    ${bam} \
     -o ${sample_id}_bins.fasta \
     -a ${sample_id}_bins.table.tsv 
     """  
