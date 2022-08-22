@@ -205,3 +205,65 @@ mamba install samtools==1.11
 index = index_files[0].toRealPath().toString().split('\\.')[0]
 ```
 
+Trying metabat2 command:
+```bash
+  metabat2 \
+    -i /home/viller/virusclass/results/megahit/Dol1_S19_L001.contigs.fa \
+    /home/viller/virusclass/results/bowtie2/align2contigs/aligned/Dol1_S19_L001.bam \
+    --minContig 1500 \
+    -o binTEST 
+```
+Two short contigs (<1500) in the above command, resulted in no bins.
+
+#### Downloading new test data
+```bash
+curl -O -J -L https://osf.io/h9x6e/download
+```
+
+Trying workflow with new testdata:
+```bash
+Error executing process > 'METABAT2 (1)'
+
+Caused by:
+  Missing output file(s) `*_bins*` expected by process `METABAT2 (1)`
+
+Command executed:
+
+  metabat2     -i ERR321578.contigs.fa     ERR321574.bam     -o ERR321578_bins
+
+Command exit status:
+  0
+
+Command output:
+  MetaBAT 2 (v2.12.1) using minContig 2500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, and maxEdges 200. 
+  0 bins (0 bases in total) formed.
+
+Work dir:
+  /home/viller/virusclass/virusclassification_nextflow/work/12/82d8fb6e82474bd5d5210d452f8713
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+```
+Must fix so that if the output is null due to to small contigs, the output is nothing! 
+
+```bash
+ kaiju \
+    -t /home/viller/virusclass/databases/kaiju_db/refseq/nodes.dmp \
+    -f /home/viller/virusclass/databases/kaiju_db/refseq/kaiju_db_refseq.fmi \
+    -i /home/viller/virusclass/testdata/ERR1135369_1.fastq \
+    -j /home/viller/virusclass/testdata/ERR1135369_2.fastq \
+    -o TESTAR.kaiju.out
+```
+`Error: Read names are not identical between the two input files. Probably reads are not in the same order in both files.`
+
+### Sorting fastq files
+Hmm... This error replicates although I use the **raw** files.
+Is there some way to sort the fastq files???
+Trying the package `pip install pyfastx`
+
+**Seems like the reads does NOT pair up between the two files**
+Trying new data:
+```bash
+wget http://downloads.hmpdacc.org/data/Illumina/anterior_nares/SRS018585.tar.bz2
+```
+
+Solved the problems that metabat2 sometimes does not output anything:
+output: `optional: true`

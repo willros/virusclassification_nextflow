@@ -8,7 +8,7 @@ process SAMTOOLS {
     tuple val(sample_id), path(sam)
     
     output:
-    tuple val(sample_id), path('*.bam'), emit: bam
+    path('*.bam'), emit: bam
     path('*.bai'), emit: index
     
     script:
