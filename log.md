@@ -107,3 +107,101 @@ Tutorial for binning here: https://www.youtube.com/watch?v=q9U0uTFRsl4&ab_channe
 
 create CONTIGS2INDEX:
 * map the reads back against the assembly to get coverage information 
+
+
+## 2022-08-22 Monday
+
+* Continue with bowtie2 alignment 
+* samtools module
+    * sam to bam
+    * index and sort 
+    
+ 
+Which files should align to the new index of assembled contigs? The "unaligned" reads from the first bowtie2 step, or the files from FASTP? 
+`Right now it aligned the host-read-filtered fastq files to the contigs index.`
+
+**Need to output the folder name of the CONTIGS2INDEX process, not the files in it.** 
+Error now:
+```bash
+Error executing process > 'BOWTIE2_ALIGN2CONTIGS (1)'
+
+Caused by:  Process `BOWTIE2_ALIGN2CONTIGS (1)` terminated with an error exit status (255)Command executed:
+  bowtie2     -x [Dol1_S19_L001, [/home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.1.bt2, /home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.2.bt2, /home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.3.bt2, /home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.4.bt2, /home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.rev.1.bt2, /home/viller/virusclass/virusclassification_nextflow/work/71/a25811cb79674320e38718cd843fed/Dol1_S19_L001.rev.2.bt2]]     -1 Dol1_S19_L001_unaligned.1.fastq     -2 Dol1_S19_L001_unaligned.2.fastq     -S Dol1_S19_L001_aligned.sam     2> Dol1_S19_L001.bowtie.log
+
+Command exit status:
+  255
+```
+The output from `CONTIGS2INDEX` **CANNOT** be a tuple! 
+Change from
+```
+output:
+    tuple val(sample_id), path('*.bt2'), emit: index
+    
+# to:
+output:
+    val(sample_id), emit: sample_id
+    path('*.bt2'), emit: index
+```
+
+Trying to use the operator: **getParent** to get the folder of the contig index. 
+Documentation: https://buildmedia.readthedocs.org/media/pdf/nextflow1/latest/nextflow1.pdf
+
+
+changing from:
+```
+path('*.bt2'), emit: index
+# to
+path('${sample_id}'), emit: index
+```
+The above did not work, it must be: `path('*.bt2'), emit: index`. Therefore I need to get the parentfolder with operators like: operator: **getParent** 
+in the main.nf script. 
+
+
+Trying many different things related to all of the above, but it in the end it was hard to get it to work. The solution below, however, worked:
+```nextflow
+process TESTAR {  
+    echo true
+
+    input:
+    tuple val(sample_id), path(reads)
+    
+    
+    script:
+    index = params.bowtie2_align2contigs.toString() + '/' + sample_id
+    """
+    echo ${index}
+   
+    """   
+}
+```
+
+In CONTIS2INDEX:
+```bash
+# instead of:
+output:
+    val(sample_id), emit: sample_id
+    val('*.bt2'), emit: index
+# change to:
+```
+
+Testing bowtie2 from command line:
+```bash
+bowtie2 -x /home/viller/virusclass/databases/bowtie2/Dol1_S19_L001/Dol1_S19_L001 -1 /home/viller/virusclass/results/bowtie2/unaligned/Dol1_S19_L001_unaligned.1.fastq -2 /home/viller/virusclass/results/bowtie2/unaligned/Dol1_S19_L001_unaligned.2.fastq -S TESTARBOWTIE_aligned.sam
+```
+The above works...
+
+### Now the ALIGN2CONTIGS works
+Had to publishdir the new index of the contigs to a absolute path and use: 
+`index = params.bowtie2_contigs_index.toString() + '/' + sample_id + '/' + sample_id`
+To get it to work. 
+
+install samtools:
+```bash
+mamba install samtools==1.11
+```
+
+**YES!!** Finally fixed the bowtieALIGN2CONTIGS problem (that it could not find the index). Fixed it with this line:
+```bash
+index = index_files[0].toRealPath().toString().split('\\.')[0]
+```
+

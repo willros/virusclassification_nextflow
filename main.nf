@@ -11,7 +11,8 @@ include { MEGAHIT } from './modules/MEGAHIT.nf'
 include { MEGAHIT2LENGTH } from './modules/MEGAHIT2LENGTH.nf'
 include { METABAT2 } from './modules/METABAT2.nf'
 include { CONTIGS2INDEX } from './modules/CONTIGS2INDEX.nf'
-
+include { BOWTIE2_ALIGN2CONTIGS } from './modules/BOWTIE2_ALIGN2CONTIGS.nf'
+include { SAMTOOLS } from './modules/SAMTOOLS.nf'
 
 
 // input files
@@ -41,6 +42,8 @@ workflow {
     MEGAHIT(BOWTIE2_UNALIGNED.out.reads)
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
     CONTIGS2INDEX(MEGAHIT.out.assembly)
+    BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
+    SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
     
     // METABAT2(MEGAHIT.out.assembly)
 
