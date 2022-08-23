@@ -19,6 +19,11 @@ include { KAIJU_MEGAHIT } from './modules/KAIJU_MEGAHIT.nf'
 include { KAIJU_MEGAHIT2KRONA } from './modules/KAIJU_MEGAHIT2KRONA.nf'
 include { KRONA2HTML_MEGAHIT } from './modules/KRONA2HTML_MEGAHIT.nf'
 include { KAIJU_MEGAHIT2TABLE } from './modules/KAIJU_MEGAHIT2TABLE.nf'
+include { KRAKEN_MEGAHIT } from './modules/KRAKEN_MEGAHIT.nf'
+include { KRAKEN_METASPADES } from './modules/KRAKEN_METASPADES.nf'
+
+
+
 
 
 // input files
@@ -57,11 +62,17 @@ workflow {
     METASPADES(BOWTIE2_UNALIGNED.out.reads) 
     METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
     
-    // KAIJU TAXONOMY CONTIGS
+    // KAIJU TAXONOMY CONTIGS MEGAHIT
     KAIJU_MEGAHIT(MEGAHIT.out.assembly, nodes, fmi)
     KAIJU_MEGAHIT2KRONA(KAIJU_MEGAHIT.out.tree, nodes, names)
     KRONA2HTML_MEGAHIT(KAIJU_MEGAHIT2KRONA.out.krona)
     KAIJU_MEGAHIT2TABLE(KAIJU_MEGAHIT.out.tree, nodes, names)
+
+    // KRAKEN TAXONOMY CONTIGS READS MEGAHIT
+    KRAKEN_MEGAHIT(MEGAHIT.out.assembly, kraken_db)
+    
+    // KRAKEN TAXONOMY CONTIGS READS METASPADES
+    KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
     
     // BINNING
     // changing to metaspades 
