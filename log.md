@@ -267,3 +267,19 @@ wget http://downloads.hmpdacc.org/data/Illumina/anterior_nares/SRS018585.tar.bz2
 
 Solved the problems that metabat2 sometimes does not output anything:
 output: `optional: true`
+
+## 2022-08-23
+
+Installing metaspades:
+```bash
+mamba install -c bioconda spades
+```
+
+testing metaspades:
+```bash
+metaspades.py \
+    -1 /home/viller/virusclass/testdata/test_1.fastq \
+    -2 /home/viller/virusclass/testdata/test_2.fastq \
+    -o test_spades 
+```
+Spades was much longer to run compared to megahit, and resulted in much longer contigs
