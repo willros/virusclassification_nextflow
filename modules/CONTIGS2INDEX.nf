@@ -2,7 +2,8 @@ nextflow.enable.dsl=2
 
 process CONTIGS2INDEX {    
     input:
-    tuple val(sample_id), path(assembly)
+    val(sample_id)
+    path(assembly)
     
     output:
     path('*bt2*'), emit: index

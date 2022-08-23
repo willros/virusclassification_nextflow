@@ -5,7 +5,8 @@ process METABAT2 {
     publishDir("${params.metabat2_out}/", pattern: "*_bins*", mode: 'copy')
 
     input:
-    tuple val(sample_id), path(assembly)
+    val(sample_id) 
+    path(assembly)
     path(bam)
     
     output:

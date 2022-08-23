@@ -15,7 +15,10 @@ include { BOWTIE2_ALIGN2CONTIGS } from './modules/BOWTIE2_ALIGN2CONTIGS.nf'
 include { SAMTOOLS } from './modules/SAMTOOLS.nf'
 include { METASPADES } from './modules/METASPADES.nf'
 include { METASPADES2LENGTH } from './modules/METASPADES2LENGTH.nf'
-
+include { KAIJU_MEGAHIT } from './modules/KAIJU_MEGAHIT.nf'
+include { KAIJU_MEGAHIT2KRONA } from './modules/KAIJU_MEGAHIT2KRONA.nf'
+include { KRONA2HTML_MEGAHIT } from './modules/KRONA2HTML_MEGAHIT.nf'
+include { KAIJU_MEGAHIT2TABLE } from './modules/KAIJU_MEGAHIT2TABLE.nf'
 
 
 // input files
@@ -35,21 +38,36 @@ kraken_db = channel.value( params.kraken_db_standard )
 
 workflow {
 
+    // PREPROCESS
     FASTP(files)
     BOWTIE2_UNALIGNED(FASTP.out.reads, index)
+    
+    // KAIJU TAXONOMY RAW READS
     KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)
     KAIJU2KRONA(KAIJU.out.tree, nodes, names)
     KRONA2HTML(KAIJU2KRONA.out.krona)
     KAIJU2TABLE(KAIJU.out.tree, nodes, names)
+    
+    // KRAKEN TAXONOMY RAW READS
     KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
+    
+    // ASSEMBLY 
     MEGAHIT(BOWTIE2_UNALIGNED.out.reads)
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
-    CONTIGS2INDEX(MEGAHIT.out.assembly)
-    BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
-    SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
-    METASPADES(BOWTIE2_UNALIGNED.out.reads)    
+    METASPADES(BOWTIE2_UNALIGNED.out.reads) 
     METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
     
-    METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
+    // KAIJU TAXONOMY CONTIGS
+    KAIJU_MEGAHIT(MEGAHIT.out.assembly, nodes, fmi)
+    KAIJU_MEGAHIT2KRONA(KAIJU_MEGAHIT.out.tree, nodes, names)
+    KRONA2HTML_MEGAHIT(KAIJU_MEGAHIT2KRONA.out.krona)
+    KAIJU_MEGAHIT2TABLE(KAIJU_MEGAHIT.out.tree, nodes, names)
+    
+    // BINNING
+    // changing to metaspades 
+    CONTIGS2INDEX(METASPADES.out.sample_id, METASPADES.out.contigs)
+    BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
+    SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
+    METABAT2(METASPADES.out.sample_id, METASPADES.out.contigs, SAMTOOLS.out.bam)
 
 }

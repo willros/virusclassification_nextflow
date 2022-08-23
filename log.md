@@ -283,3 +283,18 @@ metaspades.py \
     -o test_spades 
 ```
 Spades was much longer to run compared to megahit, and resulted in much longer contigs
+
+
+Install Maxbin2:
+```bash
+mamba install -c bioconda maxbin2
+```
+
+**Changing the main.nf to include metaspades instead of megahit and running metabat2 on that instead**
+It seems like metabat doesnt produce anything, although the contigs are longer from metaspades than from megahit. 
+
+Will try with maxbin2. 
+**I do not get it to work** 
+
+* Run kaiju on the contig files 
+
