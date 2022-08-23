@@ -9,8 +9,8 @@ process METASPADES {
     
     output:
     val(sample_id), emit: sample_id
-    path("*contigs.fasta"), emit: contigs
-    path("*scaffolds.fasta"), emit: scaffold
+    path("${sample_id}_contigs.fasta"), emit: contigs
+    path("${sample_id}_scaffolds.fasta"), emit: scaffold
 
     
     script:

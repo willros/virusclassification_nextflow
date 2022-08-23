@@ -14,6 +14,7 @@ include { CONTIGS2INDEX } from './modules/CONTIGS2INDEX.nf'
 include { BOWTIE2_ALIGN2CONTIGS } from './modules/BOWTIE2_ALIGN2CONTIGS.nf'
 include { SAMTOOLS } from './modules/SAMTOOLS.nf'
 include { METASPADES } from './modules/METASPADES.nf'
+include { METASPADES2LENGTH } from './modules/METASPADES2LENGTH.nf'
 
 
 
@@ -46,7 +47,8 @@ workflow {
     CONTIGS2INDEX(MEGAHIT.out.assembly)
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
-    METASPADES(BOWTIE2_UNALIGNED.out.reads)
+    METASPADES(BOWTIE2_UNALIGNED.out.reads)    
+    METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
     
     METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
 

@@ -12,7 +12,7 @@ process MEGAHIT2LENGTH {
     
     script:
     """
-    config_length.py \
+    config_length_megahit.py \
     ${assembly} \
     ${sample_id}
     """  
