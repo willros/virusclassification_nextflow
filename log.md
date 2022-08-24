@@ -315,3 +315,36 @@ Need to increase the CPU, threads and RAM.
 
 **Maybe change the metabat2 parameters** 
 From 1500 to... 2500? 
+
+#### Chaning the nextflow.config file to add cpus and so on:
+* https://carpentries-incubator.github.io/workflows-nextflow/08-configuration/index.html
+
+```bash
+process {
+    cpus = 2
+    memory = 8.GB
+    time = '1 hour'
+    publishDir = [ path: params.outdir, mode: 'copy' ]
+}
+
+#or
+
+process {
+    withName: FASTQC {
+        cpus = 2
+        memory = { 2.GB * task.cpus }
+        publishDir = { "fastqc/$sample" }
+    }
+}
+
+# ti add 
+```
+
+**Installing CAT/BAT**
+```bash
+mamba install -c bioconda cat
+```
+
+Moving the CAT and bowtie2 human index to databases in this project. Takes a lot of time unpacking CAT... 
+**DONE**. 
+
