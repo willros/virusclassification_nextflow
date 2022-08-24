@@ -298,3 +298,20 @@ Will try with maxbin2.
 
 * Run kaiju on the contig files 
 
+### 2022-08-24
+
+Runned the whole pipeline on large test data, and it WORKED, but was slow:
+```bash
+Completed at: 24-Aug-2022 00:59:33
+Duration    : 8h 15m 23s
+CPU hours   : 16.6
+Succeeded   : 21
+```
+
+Need to increase the CPU, threads and RAM. 
+
+* Add CAT/BAT today as well. 
+* ADd human index for bowtie2
+
+**Maybe change the metabat2 parameters** 
+From 1500 to... 2500? 
