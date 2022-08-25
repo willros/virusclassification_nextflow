@@ -18,6 +18,7 @@ process KAIJU_MEGAHIT {
     -t ${nodes} \
     -f ${fmi} \
     -i ${assembly} \
+    -v \
     -o ${sample_id}_megahit.kaiju.out
     """  
     

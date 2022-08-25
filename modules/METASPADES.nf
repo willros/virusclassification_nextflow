@@ -8,11 +8,9 @@ process METASPADES {
     tuple val(sample_id), path(reads)
     
     output:
-    val(sample_id), emit: sample_id
-    path("${sample_id}_contigs.fasta"), emit: contigs
-    path("${sample_id}_scaffolds.fasta"), emit: scaffold
-
+    tuple val(sample_id), path("${sample_id}_contigs.fasta"), emit: contigs
     
+
     script:
     """
     metaspades.py \
@@ -22,11 +20,11 @@ process METASPADES {
    
     
     mv metaspades/contigs.fasta ${sample_id}_contigs.fasta
-    mv metaspades/scaffolds.fasta ${sample_id}_scaffolds.fasta
 
     """  
     
 }
 
-
+// path("${sample_id}_scaffolds.fasta"), emit: scaffold
+// mv metaspades/scaffolds.fasta ${sample_id}_scaffolds.fasta
 

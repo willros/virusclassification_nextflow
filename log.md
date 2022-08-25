@@ -493,3 +493,60 @@ removing ete3
 ```bash
 (virusclass) viller@cg1:~$ rm -rf .etetoolkit*
 ```
+
+## Fick data från Andreas:
+Tja,
+Ursäkta att det tagit lite tid. Jag har nu fått upp ett första dataset till vår externa ftp. Det innehåller ett alphacorona samt vår interna spik (Rift Valley Fever). Data har använts i denna artikel: https://www.mdpi.com/1999-4915/14/3/556
+
+Running the pipe on that and changed the bowtie2 index to human genome. 
+
+* Analysis:
+    * A lot of reads coming from human, even though aligned against hg38. 
+    * No bins from metabat2 were produced, and thus no CAT taxonomy was made. 
+    * Could see the spike from rift valley (15%)
+    
+From the article:
+`Using this technique, a CoV sequence
+(alpha-CoV, GenBank provisional accession number OK663601, 21,882 nucleotides) spanning the near complete genome was obtained from 1 of 16 samples (6.3%), the feces of a female adult M. daubentonii collected from Tollarp (Table 1).`
+
+When I BLAST the longest contigs from the megahit file, the longest ones match 99% with bat corona. Maybe binning is wrong approach here... Maybe to little data? 
+
+* Should add back on kaiju on raw reads as well... 
+* should add metaspades again 
+* put the metabat2 -m to 1500
+* removing to output the scaffold from metaspades. 
+
+
+So only one of the 16 bats they could detect a whole sequence of corona. 
+
+Running the pipeline again with:
+* binning on metaspades instead of megahit
+* kaiju/kraken on raw reads
+* metabat2 -m set to 1500
+
+**Note on the analysis**
+* The kaiju on raw reads detected much more raft valley
+
+
+**Next thing to do**
+Take the longest contigs (over a treshhold... 1000?) and BLAST and show the results. 
+
+* add bracken to raw reads. 
+
+### WHICH DATABASE TO USE ON KAIJU AND KRAKEN
+
+Maybe remove metaspades after all...
+* Removeed metaspades from the pipe
+
+
+A lot of information in the kaiju.out files! Readname and so on... 
+Add -v to kaiju!! 
+
+Add to kaiju: 
+```bash
+kaiju-addTaxonNames -t nodes.dmp -n names.dmp -i kaiju.out -o kaiju.names.out
+```
+
+# IDEA:
+
+###  Depending on the length and number of contigs classified as one species -> Download the reference genome and align and assemble the contigs to the reference genome of that species. 

@@ -19,6 +19,7 @@ process KAIJU {
     -f ${fmi} \
     -i ${reads[0]} \
     -j ${reads[1]} \
+    -v \
     -o ${sample_id}.kaiju.out
     """  
     

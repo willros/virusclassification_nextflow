@@ -5,8 +5,7 @@ process METASPADES2LENGTH {
     publishDir("${params.metaspades_out}/", pattern: "*.csv", mode: 'copy')
 
     input:
-    val(sample_id)
-    path(contigs)
+    tuple val(sample_id), path(contigs)
     
     output:
     tuple val(sample_id), path("*.csv"), emit: csv

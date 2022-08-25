@@ -19,6 +19,7 @@ def extract_length(file: str, name: str) -> None:
      .assign(length=lambda x: x['line'].str.extract(r'len=(\d*)'),
              name=lambda x: x['line'].str.extract(r'>(.*?)flag'))
      .loc[:, ['length', 'name']]
+     .sort_values('length', ascending=False)
      .to_csv(f'{name}.csv', index=False)
     )
     

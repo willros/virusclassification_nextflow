@@ -16,7 +16,7 @@ process METABAT2 {
     metabat2 \
     -i ${assembly} \
     ${bam} \
-    -m 2500 \
+    -m 1500 \
     -o ${sample_id}_bins 
     """  
     

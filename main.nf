@@ -24,7 +24,8 @@ include { KRAKEN_METASPADES } from './modules/KRAKEN_METASPADES.nf'
 include { CAT } from './modules/CAT.nf'
 include { CAT2NAMES } from './modules/CAT2NAMES.nf'
 include { BRACKEN_MEGAHIT } from './modules/BRACKEN_MEGAHIT.nf'
-
+include { BRACKEN } from './modules/BRACKEN.nf'
+include { KAIJU_MEGAHIT2NAMES } from './modules/KAIJU_MEGAHIT2NAMES.nf'
 
 
 // input files
@@ -54,25 +55,27 @@ workflow {
     BOWTIE2_UNALIGNED(FASTP.out.reads, index)
     
     // KAIJU TAXONOMY RAW READS
-    // KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)
-    // KAIJU2KRONA(KAIJU.out.tree, nodes, names)
-    // KRONA2HTML(KAIJU2KRONA.out.krona)
-    // KAIJU2TABLE(KAIJU.out.tree, nodes, names)
+    KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)
+    KAIJU2KRONA(KAIJU.out.tree, nodes, names)
+    KRONA2HTML(KAIJU2KRONA.out.krona)
+    KAIJU2TABLE(KAIJU.out.tree, nodes, names)
     
     // KRAKEN TAXONOMY RAW READS
-    // KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
+    KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
+    BRACKEN(KRAKEN2.out.kraken_report, kraken_db)
     
     // ASSEMBLY 
     MEGAHIT(BOWTIE2_UNALIGNED.out.reads)
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
     // METASPADES(BOWTIE2_UNALIGNED.out.reads) 
-    // METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
+    // METASPADES2LENGTH(METASPADES.out.contigs)
     
     // KAIJU TAXONOMY CONTIGS MEGAHIT
     KAIJU_MEGAHIT(MEGAHIT.out.assembly, nodes, fmi)
     KAIJU_MEGAHIT2KRONA(KAIJU_MEGAHIT.out.tree, nodes, names)
     KRONA2HTML_MEGAHIT(KAIJU_MEGAHIT2KRONA.out.krona)
     KAIJU_MEGAHIT2TABLE(KAIJU_MEGAHIT.out.tree, nodes, names)
+    KAIJU_MEGAHIT2NAMES(KAIJU_MEGAHIT.out.tree, nodes, names)
 
     // KRAKEN TAXONOMY CONTIGS READS MEGAHIT
     KRAKEN_MEGAHIT(MEGAHIT.out.assembly, kraken_db)
@@ -82,7 +85,7 @@ workflow {
     // KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
     
     // BINNING
-    // changing to MEGAHIT 
+    // changing to megahit 
     CONTIGS2INDEX(MEGAHIT.out.assembly)
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
