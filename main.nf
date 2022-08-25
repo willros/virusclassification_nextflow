@@ -21,8 +21,8 @@ include { KRONA2HTML_MEGAHIT } from './modules/KRONA2HTML_MEGAHIT.nf'
 include { KAIJU_MEGAHIT2TABLE } from './modules/KAIJU_MEGAHIT2TABLE.nf'
 include { KRAKEN_MEGAHIT } from './modules/KRAKEN_MEGAHIT.nf'
 include { KRAKEN_METASPADES } from './modules/KRAKEN_METASPADES.nf'
-
-
+include { CAT } from './modules/CAT.nf'
+include { CAT2NAMES } from './modules/CAT2NAMES.nf'
 
 
 
@@ -40,6 +40,11 @@ names = channel.value( params.kaiju_names_refseq )
 // kraken
 kraken_db = channel.value( params.kraken_db_standard )
 
+// cat
+cat_database = channel.value( params.CAT_database )
+cat_taxonomy = channel.value( params.CAT_taxonomy )
+
+
 
 workflow {
 
@@ -48,19 +53,19 @@ workflow {
     BOWTIE2_UNALIGNED(FASTP.out.reads, index)
     
     // KAIJU TAXONOMY RAW READS
-    KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)
-    KAIJU2KRONA(KAIJU.out.tree, nodes, names)
-    KRONA2HTML(KAIJU2KRONA.out.krona)
-    KAIJU2TABLE(KAIJU.out.tree, nodes, names)
+    // KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)
+    // KAIJU2KRONA(KAIJU.out.tree, nodes, names)
+    // KRONA2HTML(KAIJU2KRONA.out.krona)
+    // KAIJU2TABLE(KAIJU.out.tree, nodes, names)
     
     // KRAKEN TAXONOMY RAW READS
-    KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
+    // KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
     
     // ASSEMBLY 
     MEGAHIT(BOWTIE2_UNALIGNED.out.reads)
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
-    METASPADES(BOWTIE2_UNALIGNED.out.reads) 
-    METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
+    // METASPADES(BOWTIE2_UNALIGNED.out.reads) 
+    // METASPADES2LENGTH(METASPADES.out.sample_id, METASPADES.out.contigs)
     
     // KAIJU TAXONOMY CONTIGS MEGAHIT
     KAIJU_MEGAHIT(MEGAHIT.out.assembly, nodes, fmi)
@@ -72,13 +77,21 @@ workflow {
     KRAKEN_MEGAHIT(MEGAHIT.out.assembly, kraken_db)
     
     // KRAKEN TAXONOMY CONTIGS READS METASPADES
-    KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
+    // KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
     
     // BINNING
-    // changing to metaspades 
-    CONTIGS2INDEX(METASPADES.out.sample_id, METASPADES.out.contigs)
+    // changing to MEGAHIT 
+    CONTIGS2INDEX(MEGAHIT.out.assembly)
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
-    METABAT2(METASPADES.out.sample_id, METASPADES.out.contigs, SAMTOOLS.out.bam)
+    METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
+    
+    // TAXONOMY OF BINNING 
+    // What to do if output from metabat2 is empty?? Skip this step then. But how? 
+    CAT(METABAT2.out.bins, cat_database, cat_taxonomy)
+    CAT2NAMES(CAT.out.classification, cat_taxonomy)
+    
+    // Cat summary does not work when there is multiple bins.
+    // CAT2SUMMARY(CAT2NAMES.out.names)
 
 }

@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
-process BOWTIE2_ALIGN2CONTIGS {    
+process BOWTIE2_ALIGN2CONTIGS {
+
     publishDir("${params.bowtie2_align2contigs}/log", pattern: "*.log", mode: 'copy')
 
     input:
@@ -22,3 +23,4 @@ process BOWTIE2_ALIGN2CONTIGS {
     2> ${sample_id}.bowtie.log
     """   
 }
+

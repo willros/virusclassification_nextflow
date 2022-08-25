@@ -319,25 +319,41 @@ From 1500 to... 2500?
 #### Chaning the nextflow.config file to add cpus and so on:
 * https://carpentries-incubator.github.io/workflows-nextflow/08-configuration/index.html
 
+## This followning structure for nextflow.config works: 
 ```bash
-process {
-    cpus = 2
-    memory = 8.GB
-    time = '1 hour'
-    publishDir = [ path: params.outdir, mode: 'copy' ]
+params {
+    fastqin = '~/virusclass/testdata/test_{1,2}.fastq'
 }
 
-#or
 
 process {
-    withName: FASTQC {
-        cpus = 2
-        memory = { 2.GB * task.cpus }
-        publishDir = { "fastqc/$sample" }
+    
+    withName: FASTP {
+        cpus = 20
+        memory = 10.GB
+        publishDir = [
+            path: { "FASTP_TEST/reads/" },
+            mode: 'copy',
+            pattern: "*.fastq"
+        ]
     }
+    withName: TEST {
+        cpus = 20
+        memory = 10.GB
+        publishDir = [
+            path: { "FASTP_TEST/reads/" },
+            mode: 'copy',
+            pattern: "*.txt"
+        ]
+        publishDir = [
+            path: { "FASTP_TEST/log/" },
+            mode: 'copy',
+            pattern: "*.log"
+        ]
+    }
+  
 }
 
-# ti add 
 ```
 
 **Installing CAT/BAT**
@@ -347,4 +363,79 @@ mamba install -c bioconda cat
 
 Moving the CAT and bowtie2 human index to databases in this project. Takes a lot of time unpacking CAT... 
 **DONE**. 
+
+
+Trying to run BAT on single MAG:
+```bash
+CAT bin -b /home/viller/virusclass/results/metabat2/APX_bins.1.fa -d /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_CAT_database/ -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ 
+```
+Worked, but slow, need to add -n for cores
+
+running CAT add names:
+```bash
+CAT add_names \
+    -i /home/viller/virusclass/results/out.BAT.bin2classification.txt \
+    -o CAT_with_names.txt \
+    -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ \
+    --only_official
+    
+# summarise
+CAT summarise \ 
+    -i CAT_with_names.txt \
+    -o CAT_summary.txt
+```
+
+#### about metabat2
+Is is always the top >node in the fasta file that constitutes the longest bin of all nodes in the fasta file? 
+
+Trying metabat2 again on metaspades assemblies and see what the output are, REMEMBER CORES!
+```bash
+metabat2 \
+    -i /home/viller/virusclass/results/metaspades/APX_contigs.fasta \
+    /home/viller/virusclass/results/bowtie2/align2contigs/aligned/APX.bam \
+    -m 2500 \
+    -t 25 \
+    -o TESTING_METABAT2_bins 
+```
+
+## Stuff to remove and change:
+* Remove taxonomic classification of raw reads -> just use assemblies
+    * MUCH faster without! around 50% reduce of time. 
+* Remove everything that has to do with metaspades, because it too slow? 
+
+**CAT uses the max number of cores when nothing i specified**
+
+alpha and beta diversity:
+https://carpentries-incubator.github.io/metagenomics/aio/index.html
+
+
+* kraken biom for diversity between samples. 
+
+trying cat on a folder of bins:
+```bash
+CAT bins -b /home/viller/virusclass/results/CAT_TEST -d /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_CAT_database/ -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ -s fa
+```
+`-s` needed to specify the suffix of the bin files (in this case .fa)
+This worked.
+
+```bash
+CAT add_names \
+    -i /home/viller/virusclass/results/out.BAT.bin2classification.txt \
+    -o CAT_with_names.txt \
+    -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ \
+    --only_official
+    
+CAT summarise \ 
+    -i CAT_with_names.txt \
+    -o CAT_summary.txt
+    
+    # ERROR
+
+```
+CAT summarise does not work because: 
+CAT summarise currently does not support classification files wherein some contigs / MAGs have multiple classifications (as contig_2 above).
+
+
+### 2022-08-25
+The whole pipeline works! 
 

@@ -1,12 +1,11 @@
 nextflow.enable.dsl=2
 
 process METABAT2 {
-    
+
     publishDir("${params.metabat2_out}/", pattern: "*_bins*", mode: 'copy')
 
     input:
-    val(sample_id) 
-    path(assembly)
+    tuple val(sample_id), path(assembly)
     path(bam)
     
     output:
@@ -17,11 +16,9 @@ process METABAT2 {
     metabat2 \
     -i ${assembly} \
     ${bam} \
-    -m 1500 \
+    -m 2500 \
     -o ${sample_id}_bins 
     """  
     
 }
-
-
 

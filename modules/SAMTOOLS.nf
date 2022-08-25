@@ -1,8 +1,10 @@
 nextflow.enable.dsl=2
 
 process SAMTOOLS {    
+
     publishDir("${params.bowtie2_align2contigs}/aligned", pattern: "*.bam", mode: 'copy')
     publishDir("${params.bowtie2_align2contigs}/aligned", pattern: "*.bai", mode: 'copy')
+
 
     input:
     tuple val(sample_id), path(sam)

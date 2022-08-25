@@ -22,7 +22,7 @@ process FASTP {
     -O ${sample_id}_filt_R2.fastq.gz \
     --detect_adapter_for_pe --length_required 30 \
     --cut_front --cut_tail --cut_mean_quality 10 \
-    --html ${sample_id}.fastp.html 
+    --html ${sample_id}.fastp.html \
     """  
     
 }
