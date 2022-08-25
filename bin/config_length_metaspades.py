@@ -16,9 +16,10 @@ def extract_length(file: str, name: str) -> None:
                           columns=['line'])
         
     (df
-     .assign(length=lambda x: x['line'].str.extract(r'length_(\d*)'),
+     .assign(length=lambda x: x['line'].str.extract(r'length_(\d*)').astype(int),
              name=lambda x: x['line'].str.extract(r'NODE_(\d*)'))
      .loc[:, ['length', 'name']]
+     .assign(name=lambda x: x['name'].str.strip())
      .sort_values('length', ascending=False)
      .to_csv(f'{name}.csv', index=False)
     )

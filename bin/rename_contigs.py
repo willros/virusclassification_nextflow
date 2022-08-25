@@ -13,7 +13,6 @@ def rename_contigs(file: str) -> None:
         content = [line.strip() for line in fasta.readlines()]
     
     #write new file
-    
     num = 1
     with open(file, 'w') as new_fasta:
         for line in content:

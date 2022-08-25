@@ -550,3 +550,10 @@ kaiju-addTaxonNames -t nodes.dmp -n names.dmp -i kaiju.out -o kaiju.names.out
 # IDEA:
 
 ###  Depending on the length and number of contigs classified as one species -> Download the reference genome and align and assemble the contigs to the reference genome of that species. 
+
+
+The NCBIWWW module from biopython is WAY to slow, and does not work...Bummer. 
+
+# 2022-08-26
+
+**The kaiju db and the BLAST db seems not to agree with each oter**

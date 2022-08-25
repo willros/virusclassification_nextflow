@@ -12,15 +12,17 @@ def extract_length(file: str, name: str) -> None:
     '''
     
     with open(file, 'r') as fasta:
-        df = pd.DataFrame([line.strip() for line in fasta.readlines() if line.startswith('>')],
-                          columns=['line'])
-        
-    (df
-     .assign(length=lambda x: x['line'].str.extract(r'len=(\d*)'),
-             name=lambda x: x['line'].str.extract(r'>(.*?)flag'))
-     .loc[:, ['length', 'name']]
-     .sort_values('length', ascending=False)
-     .to_csv(f'{name}.csv', index=False)
+        content = fasta.readlines()
+    
+                                  
+    (pd.DataFrame()
+          .assign(info=[x.strip() for x in content if x.startswith('>')],
+                  name=lambda x: x['info'].str.extract(r'>(.*?) flag'),
+                  length=lambda x: x['info'].str.extract(r'len=(\d*)').astype(int),
+                  sequence=[x.strip() for x in content if not x.startswith('>')])
+          .drop(columns=['info'])
+          .sort_values('length', ascending=False)
+          .to_csv(f'{name}.csv', index=False)
     )
     
 
