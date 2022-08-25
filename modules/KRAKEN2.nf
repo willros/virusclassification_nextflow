@@ -16,7 +16,6 @@ process KRAKEN2 {
     kraken2 \
     --db ${database} \
     --report ${sample_id}.kraken2.report.tsv \
-    --use-mpa-style \
     --use-names \
     --paired \
     ${reads[0]} \

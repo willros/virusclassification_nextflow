@@ -17,7 +17,6 @@ process KRAKEN_METASPADES {
     kraken2 \
     --db ${database} \
     --report ${sample_id}.kraken2_metaspades.report.tsv \
-    --use-mpa-style \
     --use-names \
     ${assembly}
     """  

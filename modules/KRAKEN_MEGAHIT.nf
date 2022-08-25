@@ -16,7 +16,6 @@ process KRAKEN_MEGAHIT {
     kraken2 \
     --db ${database} \
     --report ${sample_id}.kraken2_megahit.report.tsv \
-    --use-mpa-style \
     --use-names \
     ${assembly}
     """  

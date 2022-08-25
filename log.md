@@ -439,3 +439,57 @@ CAT summarise currently does not support classification files wherein some conti
 ### 2022-08-25
 The whole pipeline works! 
 
+Install bracken:
+```bash
+mamba install -c bioconda bracken
+```
+
+Testing kraken2 without --mpa-style:
+
+```bash
+kraken2 \
+    --db /home/viller/virusclass/databases/kraken/standard \
+    --report TESTREPORT-KRAKEN.tsv \
+    --use-names \
+    /home/viller/virusclass/results/megahit/APX.contigs.fa
+    
+# bracken
+bracken \
+    -d /home/viller/virusclass/databases/kraken/standard \
+    -i TESTREPORT-KRAKEN.tsv \
+    -o bracken_regularreport.tsv 
+    
+# level = Species as default 
+```
+
+For making trees based on taxid (NCBI):
+```bash
+mamba install ete3
+```
+
+ete3 is downloadin local database:
+```bash
+(virusclass) viller@cg1:~/virusclass/virusclassification_nextflow$ ete3 ncbiquery --tree
+NCBI database not present yet (first time used?)
+Downloading taxdump.tar.gz from NCBI FTP site (via HTTP)...
+Done. Parsing...
+Loading node names...
+2439350 names loaded.
+282313 synonyms loaded.
+Loading nodes...
+2439350 nodes loaded.
+Linking nodes...
+Tree is loaded.
+Updating database: /home/viller/.etetoolkit/taxa.sqlite ...
+ 2439000 generating entries... 
+Uploading to /home/viller/.etetoolkit/taxa.sqlite
+
+Inserting synonyms:      280000 
+Inserting taxid merges:  65000 
+Inserting taxids:       1145000 
+```
+
+removing ete3
+```bash
+(virusclass) viller@cg1:~$ rm -rf .etetoolkit*
+```

@@ -23,6 +23,7 @@ include { KRAKEN_MEGAHIT } from './modules/KRAKEN_MEGAHIT.nf'
 include { KRAKEN_METASPADES } from './modules/KRAKEN_METASPADES.nf'
 include { CAT } from './modules/CAT.nf'
 include { CAT2NAMES } from './modules/CAT2NAMES.nf'
+include { BRACKEN_MEGAHIT } from './modules/BRACKEN_MEGAHIT.nf'
 
 
 
@@ -75,6 +76,7 @@ workflow {
 
     // KRAKEN TAXONOMY CONTIGS READS MEGAHIT
     KRAKEN_MEGAHIT(MEGAHIT.out.assembly, kraken_db)
+    BRACKEN_MEGAHIT(KRAKEN_MEGAHIT.out.kraken_report, kraken_db)
     
     // KRAKEN TAXONOMY CONTIGS READS METASPADES
     // KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
@@ -85,6 +87,12 @@ workflow {
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
     METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
+    
+    
+    // if (METABAT2.out.bins != null){
+    
+    
+    // }
     
     // TAXONOMY OF BINNING 
     // What to do if output from metabat2 is empty?? Skip this step then. But how? 
