@@ -1,9 +1,9 @@
 nextflow.enable.dsl=2
 
-process CAT {    
+process CAT_CONTIGS {    
 
     input:
-    tuple val(sample_id), path(bins)
+    tuple val(sample_id), path(assembly)
     path(database)
     path(taxonomy)
     
@@ -11,13 +11,11 @@ process CAT {
     tuple val(sample_id), path('*classification.txt'), optional: true, emit: classification
    
     script:
-    bins_dir = bins[0].toRealPath().getParent()
     """
-    CAT bins \
-    -b ${bins_dir} \
+    CAT contigs \
+    -c ${assembly} \
     -d ${database} \
-    -t ${taxonomy} \
-    -s fa
+    -t ${taxonomy} 
     """   
 }
 

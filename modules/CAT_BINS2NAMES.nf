@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-process CAT2NAMES {    
+process CAT_BINS2NAMES {    
     publishDir("${params.cat_out}", pattern: "*.txt", mode: 'copy')
 
     input:
@@ -14,7 +14,7 @@ process CAT2NAMES {
     """
     CAT add_names \
     -i ${classification} \
-    -o CAT_${sample_id}_names.txt \
+    -o CAT_${sample_id}_bins_names.txt \
     -t ${taxonomy} \
     --only_official
 

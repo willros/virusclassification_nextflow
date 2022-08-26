@@ -2,8 +2,6 @@ nextflow.enable.dsl=2
 
 process KAIJU {
     
-    publishDir("${params.kaiju_out}/", pattern: "*.kaiju.out", mode: 'copy')
-
     input:
     tuple val(sample_id), path(reads)
     path(nodes)

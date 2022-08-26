@@ -1,8 +1,8 @@
 nextflow.enable.dsl=2
 
-process KAIJU_MEGAHIT2NAMES {
+process KAIJU2NAMES {
     
-    publishDir("${params.kaiju_out}/megahit", pattern: "*.out", mode: 'copy')
+    publishDir("${params.kaiju_out}", pattern: "*.out", mode: 'copy')
 
     input:
     tuple val(sample_id), path(tree)
@@ -20,7 +20,7 @@ process KAIJU_MEGAHIT2NAMES {
     -i ${tree} \
     -u \
     -p \
-    -o ${sample_id}_names_megahit.out
+    -o ${sample_id}_names.out
     """  
     
 }

@@ -1,9 +1,7 @@
 nextflow.enable.dsl=2
 
 process KAIJU_MEGAHIT {
-    
-    publishDir("${params.kaiju_out}/megahit", pattern: "*.kaiju.out", mode: 'copy')
-
+   
     input:
     tuple val(sample_id), path(assembly)
     path(nodes)

@@ -556,4 +556,163 @@ The NCBIWWW module from biopython is WAY to slow, and does not work...Bummer.
 
 # 2022-08-26
 
-**The kaiju db and the BLAST db seems not to agree with each oter**
+**The kaiju db and the BLAST db seems not to agree with each other**
+
+
+To create new conda envs: **VERY IMPORTANT WITH env** before create:
+```bash
+mamba env create --file environment.yml -n name
+```
+
+Hur många reads gick per **contig**?! 
+
+```
+MEGAHIT headers:
+
+flag is a tag to represent the connectivity of a contig in the assembly graph. flag=1 means the contig is standalone, flag=2 a looped path and flag=0 for other contigs.
+
+multi is roughly the average kmer coverage. But the figure is not precise and if you want to quantify the coverage of a contig, I would suggest you align the reads back to the contigs by short read aligners.
+
+Basically, you could just ignore the header and put the contigs to the subsequent analysis.
+```
+
+* run CAT contigs on the contig from megahit
+* Run quast on the assembly 
+
+Run CAT on contigs:
+```bash
+CAT contigs \
+    -c /home/viller/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+    -d /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_CAT_database/ \
+    -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ 
+    
+CAT add_names \
+    -i /home/viller/virusclass/results/out.CAT.contig2classification.txt \
+    -o CAT_with_names.txt \
+    -t /home/viller/virusclass/databases/CAT/CAT_prepare_20210107/2021-01-07_taxonomy/ \
+    --only_official
+    
+CAT summarise \
+    -i CAT_with_names.txt \
+    -o CAT_summary.txt \
+    -c megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+```
+* Confligt with version of DIAMOND. HAd to run the above command from the "test" conda env.
+
+
+Testing metaspades:
+```bash
+metaspades.py \
+    -1 /home/viller/virusclass/results/bowtie2/unaligned/Bat-Guano-15_S6_L001_R_unaligned.1.fastq \
+    -2 /home/viller/virusclass/results/bowtie2/unaligned/Bat-Guano-15_S6_L001_R_unaligned.2.fastq \
+    -o test_spades 
+```
+Interested in the .gfa file.
+
+install quast:
+```bash
+mamba install simplejson
+mamba install -c bioconda quast
+
+######################
+Executing transaction: / The default QUAST package does not include:
+* GRIDSS (needed for structural variants detection)
+* SILVA 16S rRNA database (needed for reference genome detection in metagenomic datasets)
+* BUSCO tools and databases (needed for searching BUSCO genes) -- works in Linux only!
+
+To be able to use those, please run
+    quast-download-gridss
+    quast-download-silva
+    quast-download-busco
+```
+Quast does NOT ouput any interesting data! 
+
+### Checkv
+https://bitbucket.org/berkeleylab/checkv/src/master/
+CheckV can remove *proviruses* 
+```bash
+mamba install checkv
+
+checkv download_database ./
+
+checkv end_to_end \
+    -d checkv-db-v1.3/ \
+    /home/viller/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+    test_checkv \
+    -t 50
+    
+```
+* The output from checkv is probably also redundant, it seems like... 
+
+
+#### Pilon
+```bash
+mamba install -c bioconda pilon
+
+
+### run pilon
+pilon \
+    --genome /home/viller/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+    --bam /home/viller/virusclass/results/bowtie2/align2contigs/aligned/Bat-Guano-15_S6_L001_R.bam \
+    --outdir test_pilon \
+    --vcf
+    
+```
+https://github.com/broadinstitute/pilon
+**Pilon probably redundant as well, the vcf file was bland**
+
+#### Running the main.nf with mamba env created from test_env.yaml
+```yaml
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - megahit
+  - fastp
+  - kaiju
+  - kraken
+  - samtools=1.11
+  - cat 
+  - bracken
+  - metabat2
+  - bowtie2
+  - krona
+  - pip
+  - nextflow
+  - pip:
+    - altair
+    - fire
+```
+## The whole pipeline worked with the environment created from the above env file!
+
+
+Fix CAT_CONTIGS2SUMMARY.nf
+
+Add -p and everything to kaiju output raw as well. 
+Merge the CAT file and the kaiju2names contigs and the sequences 
+
+Trying kaiju2table on the names file:
+```bash
+kaiju-addTaxonNames \
+    -t /home/viller/virusclass/databases/kaiju_db/refseq/nodes.dmp \
+    -n /home/viller/virusclass/databases/kaiju_db/refseq/names.dmp \
+    -i /home/viller/virusclass/results/kaiju/Bat-Guano-15_S6_L001_R_names.out \
+    -u \
+    -p \
+    -o TESTINGKAIJU.out
+    
+    
+kaiju2table \
+    -t /home/viller/virusclass/databases/kaiju_db/refseq/nodes.dmp \
+    -n /home/viller/virusclass/databases/kaiju_db/refseq/names.dmp \
+    -r genus \
+    -e \
+    -o TESTINKAIJU.tsv \
+    /home/viller/virusclass/results/kaiju/Bat-Guano-15_S6_L001_R_names.out
+    
+```
+The file stays the same. 
+

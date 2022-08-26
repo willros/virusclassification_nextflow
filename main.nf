@@ -21,11 +21,20 @@ include { KRONA2HTML_MEGAHIT } from './modules/KRONA2HTML_MEGAHIT.nf'
 include { KAIJU_MEGAHIT2TABLE } from './modules/KAIJU_MEGAHIT2TABLE.nf'
 include { KRAKEN_MEGAHIT } from './modules/KRAKEN_MEGAHIT.nf'
 include { KRAKEN_METASPADES } from './modules/KRAKEN_METASPADES.nf'
-include { CAT } from './modules/CAT.nf'
-include { CAT2NAMES } from './modules/CAT2NAMES.nf'
+include { CAT_BINS } from './modules/CAT_BINS.nf'
+include { CAT_BINS2NAMES } from './modules/CAT_BINS2NAMES.nf'
 include { BRACKEN_MEGAHIT } from './modules/BRACKEN_MEGAHIT.nf'
 include { BRACKEN } from './modules/BRACKEN.nf'
 include { KAIJU_MEGAHIT2NAMES } from './modules/KAIJU_MEGAHIT2NAMES.nf'
+include { CAT_CONTIGS } from './modules/CAT_CONTIGS.nf'
+include { CAT_CONTIGS2NAMES } from './modules/CAT_CONTIGS2NAMES.nf'
+include { KAIJU2NAMES } from './modules/KAIJU2NAMES.nf'
+
+
+
+// include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
+
+
 
 
 // input files
@@ -59,6 +68,7 @@ workflow {
     KAIJU2KRONA(KAIJU.out.tree, nodes, names)
     KRONA2HTML(KAIJU2KRONA.out.krona)
     KAIJU2TABLE(KAIJU.out.tree, nodes, names)
+    KAIJU2NAMES(KAIJU.out.tree, nodes, names)
     
     // KRAKEN TAXONOMY RAW READS
     KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
@@ -91,18 +101,25 @@ workflow {
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
     METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
     
+    // CAT TAXONOMY ON CONTIGS
+    CAT_CONTIGS(MEGAHIT.out.assembly, cat_database, cat_taxonomy)
+    CAT_CONTIGS2NAMES(CAT_CONTIGS.out.classification, cat_taxonomy)
+    // CAT_CONTIGS2SUMMARY(CAT_CONTIGS2NAMES.out.names, MEGAHIT.out.assembly)
+
+    
     
     // if (METABAT2.out.bins != null){
+    
+        // TAXONOMY OF BINNING 
+        // What to do if output from metabat2 is empty?? Skip this step then. But how? 
+        // CAT_BINS(METABAT2.out.bins, cat_database, cat_taxonomy)
+        // CAT_BINS2NAMES(CAT_BINS.out.classification, cat_taxonomy)
     
     
     // }
     
-    // TAXONOMY OF BINNING 
-    // What to do if output from metabat2 is empty?? Skip this step then. But how? 
-    CAT(METABAT2.out.bins, cat_database, cat_taxonomy)
-    CAT2NAMES(CAT.out.classification, cat_taxonomy)
     
-    // Cat summary does not work when there is multiple bins.
-    // CAT2SUMMARY(CAT2NAMES.out.names)
+    
+    
 
 }

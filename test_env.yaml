@@ -1,0 +1,22 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - megahit
+  - fastp
+  - kaiju
+  - kraken
+  - samtools=1.11
+  - cat 
+  - bracken
+  - metabat2
+  - bowtie2
+  - krona
+  - pip
+  - nextflow
+  - pip:
+    - altair
+    - fire
