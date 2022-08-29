@@ -833,3 +833,55 @@ Inspiration:
 https://www.biostars.org/p/104063/
 
 Add mpileup to the nextflow workflow. 
+
+
+## Dockerfile and Docker image with micromamba:
+Built a docker image with micromamba as:
+```dockerfile
+FROM mambaorg/micromamba:0.25.1
+COPY --chown=$MAMBA_USER:$MAMBA_USER env.yaml /tmp/env.yaml
+RUN micromamba install -y -n base -f /tmp/env.yaml && \
+    micromamba clean --all --yes
+```
+build the docker image:
+```bash
+docker build --tag virushanter .
+```
+
+To run a container from the image and be able to create files:
+```bash
+docker run \
+    -ti \
+    --rm \
+    -u root \
+    -v ~/virusclass/virusclassification_nextflow:/tmp virushanter \
+    /bin/bash
+```
+
+The pipeline works in test environment from the env.yaml file.
+
+Will try to run the pipeline in docker with: 
+```bash
+nextflow run main -with-docker virushanter
+```
+It cannot find the right files. 
+Maybe mount the whole $HOME with:
+```bash
+docker {
+    runOptions= "-v $HOME:$HOME"
+    enabled = true
+}
+```
+
+Made a new docker image with root access, using `USER root`in the Dockerfile:
+```dockerfile
+FROM mambaorg/micromamba:0.25.1
+COPY --chown=$MAMBA_USER:$MAMBA_USER env.yaml /tmp/env.yaml
+USER root 
+RUN micromamba install -y -n base -f /tmp/env.yaml && \
+    micromamba clean --all --yes
+WORKDIR /app
+```
+
+
+
