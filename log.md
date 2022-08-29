@@ -880,7 +880,7 @@ docker {
 ```
 
 Made a new docker image with root access, using `USER root`in the Dockerfile:
-```dockerfile
+```bash
 FROM mambaorg/micromamba:0.25.1
 COPY --chown=$MAMBA_USER:$MAMBA_USER env.yaml /tmp/env.yaml
 USER root 
@@ -922,3 +922,19 @@ docker run \
 ```
 * **Clean up in the output from the nextflow workflow**
 * Remove the workdir as well
+
+
+**Moved the databases and the testdata to the workdir folder.**
+Maybe I do not have to mount the whole home directory now.
+try:
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v $HOME/virusclass/virusclassification_nextflow:/app \
+    virushanter \
+    nextflow run main.nf
+```
+Nextflow cannot find the databses if I dont add: /app/ to all paths to the config file
+
+To automate the nextflow process from the sequencer, write a custom ***python*** script to move files and move the results folder and name stuff accordingly. 

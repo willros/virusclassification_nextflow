@@ -35,8 +35,6 @@ include { WRANGLE_MPILEUP } from './modules/WRANGLE_MPILEUP.nf'
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
 
 
-
-
 // input files
 files = channel.fromFilePairs( params.fastq_in, checkIfExists: true )
 

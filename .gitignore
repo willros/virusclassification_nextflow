@@ -132,3 +132,18 @@ dmypy.json
 .nextflow* 
 work/*
 work
+
+# databases
+databases/*
+databases
+databases/
+
+# samples
+testdata/*
+testdata/
+testdata
+
+# results
+results/*
+results/
+result
