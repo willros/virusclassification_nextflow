@@ -12,6 +12,7 @@ process SAMTOOLS {
     output:
     path('*.bam'), emit: bam
     path('*.bai'), emit: index
+    val(sample_id), emit: sample_id
     
     script:
     """

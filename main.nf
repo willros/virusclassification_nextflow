@@ -29,8 +29,7 @@ include { KAIJU_MEGAHIT2NAMES } from './modules/KAIJU_MEGAHIT2NAMES.nf'
 include { CAT_CONTIGS } from './modules/CAT_CONTIGS.nf'
 include { CAT_CONTIGS2NAMES } from './modules/CAT_CONTIGS2NAMES.nf'
 include { KAIJU2NAMES } from './modules/KAIJU2NAMES.nf'
-
-
+include { SAMTOOLS_MPILEUP } from './modules/SAMTOOLS_MPILEUP.nf'
 
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
 
@@ -105,7 +104,9 @@ workflow {
     CAT_CONTIGS(MEGAHIT.out.assembly, cat_database, cat_taxonomy)
     CAT_CONTIGS2NAMES(CAT_CONTIGS.out.classification, cat_taxonomy)
     // CAT_CONTIGS2SUMMARY(CAT_CONTIGS2NAMES.out.names, MEGAHIT.out.assembly)
-
+    
+    // COVERAGE OF CONTIGS
+    SAMTOOLS_MPILEUP(SAMTOOLS.out.bam, SAMTOOLS.out.sample_id)
     
     
     // if (METABAT2.out.bins != null){

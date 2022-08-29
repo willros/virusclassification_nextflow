@@ -716,3 +716,120 @@ kaiju2table \
 ```
 The file stays the same. 
 
+Cleaning and merging the kaiju2name and the megahit contig file:
+```python
+
+kaiju2names = pd.read_csv('../results/kaiju/megahit/Bat-Guano-15_S6_L001_R_names_megahit.out', 
+                          sep='\t', 
+                          header=None,
+                          index_col=False,
+                          names=['classfied', 'name', 
+                                 'NCBI', 'match_length', 
+                                 'all_matches', 'aa_matches', 
+                                 'aa_sequence', 'species']).loc[:, ['name', 'match_length', 'aa_sequence', 'species', 'NCBI']]
+
+
+megahit_contigs = pd.read_csv('~/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.csv')
+    
+
+
+merged_raw = kaiju2names.merge(megahit_contigs, on='name').sort_values('length', ascending=False)
+
+
+
+
+merged = (merged_raw
+    .dropna()
+    .assign(summed=lambda x: x.groupby('species')['length'].transform(sum) / x['length'].sum())
+    .assign(species=lambda x: x['species'].str.split(';').str[:-1])
+    .assign(last_level=lambda x: x['species'].str[-1])
+    .assign(second_level=lambda x: x['species'].str[-2])
+    .assign(third_level=lambda x: x['species'].str[-3])
+
+    .assign(kingdom=lambda x: np.select([x['species'].str[0] != 'cellular organisms'],
+                                        [x['species'].str[0]],
+                                        default=x['species'].str[1]))
+)
+
+taxonomy_list = ['kingdom', 'phylum', 'class', 'order', 'family', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+# the below works, giving the taxonomy a list back depending on number of occurancies! 
+
+(merged_raw
+ .assign(species=lambda x: x['species'].str.split(';').str[:-1])
+ 
+ .assign(species=lambda x: np.select([x['species'].str[0] != 'cellular organisms'],
+                                     [x['species']],
+                                     default=x['species'].str[1:]))
+ .explode('species')
+ .rename(columns={'species': 'rank'})
+ .dropna()
+ .assign(taxonomy=lambda x: x.groupby('name')['name'].transform(lambda x: taxonomy_list[:x.count()]))
+)
+
+merged_raw.assign(species=lambda x: x['species'].str.split(';').str[:-1])['species'].iloc[0]
+```
+
+## 2020-08-29
+
+* Trying ways to assess the contig quality:
+    * map reads to the contigs using salmon?
+        * Tool which uses salmon and extract useful information: transrate 
+        * Will try transrate
+
+
+Install transrate:
+```bash
+
+# needs ruby (First install ruby)
+mamba install -c conda-forge ruby==2.6.5
+
+# then transrate
+mamba install -c bioconda transrate
+```
+
+running transrate:
+```bash
+OPTIONS:
+  --assembly=<s>            Assembly file(s) in FASTA format, comma-separated
+  --left=<s>                Left reads file(s) in FASTQ format, comma-separated
+  --right=<s>               Right reads file(s) in FASTQ format, comma-separated
+  --reference=<s>           Reference proteome or transcriptome file in FASTA format
+  --threads=<i>             Number of threads to use (default: 8)
+  --merge-assemblies=<s>    Merge best contigs from multiple assemblies into file
+  --output=<s>              Directory where results are output (will be created) (default: transrate_results)
+  --loglevel=<s>            Log level. One of [error, info, warn, debug] (default: info)
+  --install-deps=<s>        Install any missing dependencies. One of [read, ref, all]
+  --examples                Show some example commands with explanations
+ 
+ 
+transrate \
+    --assembly=/home/viller/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+    --left=/home/viller/virusclass/results/bowtie2/unaligned/Bat-Guano-15_S6_L001_R_unaligned.1.fastq \
+    --right==/home/viller/virusclass/results/bowtie2/unaligned/Bat-Guano-15_S6_L001_R_unaligned.2.fastq \
+    --output=TEST_TRANSRATE
+```
+
+### Transrate does not work and is not maintained. Try something else! 
+
+Install mosdepth:
+```bash
+mamba install -c bioconda mosdepth
+
+mosdepth test_mosdepth /home/viller/virusclass/results/bowtie2/align2contigs/aligned/Bat-Guano-15_S6_L001_R.bam
+```
+
+### use samtools mpileup to extract the coverage /bp in each contig:
+```bash
+samtools mpileup -o filename -a {bamfile}
+```
+The output are tab delimited file with:
+1. chromosome name
+2. position (1 index)
+3. nucleotide
+4. coverage
+
+Inspiration:
+https://www.biostars.org/p/104063/
+
+Add mpileup to the nextflow workflow. 
