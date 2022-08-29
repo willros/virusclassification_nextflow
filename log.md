@@ -871,6 +871,12 @@ docker {
     runOptions= "-v $HOME:$HOME"
     enabled = true
 }
+
+#Think I Will have to do: 
+docker {
+    runOptions= "-v $HOME/:/root"
+    enabled = true
+}
 ```
 
 Made a new docker image with root access, using `USER root`in the Dockerfile:
@@ -883,5 +889,36 @@ RUN micromamba install -y -n base -f /tmp/env.yaml && \
 WORKDIR /app
 ```
 
+#### Troubles to run Docker from nextflow natively.
+Therefore I have another approach, namely to run the nextflow script from inside the docker container insted:
+```bash
+docker run -ti --rm -v $HOME:$HOME virushanter /bin/bash
+
+#Then from inside the container, just cd into the nextflow folder and
+nextflow run main.nf
+```
+
+* Which files do I **actually** need to save from the nextflow run??
+    * bowtie2 log
+    * fastp log 
+    * CAT file
+    * mpileupfile
+    * megahit csv
+    * kraken files
+    * kaiju files
+    * krona report 
 
 
+### The below command works! 
+Maybe need to mount many volumes to the docker container to be able to run the command:
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v $HOME:$HOME \
+    -v $HOME/virusclass/virusclassification_nextflow:/app \
+    virushanter \
+    nextflow run main.nf
+```
+* **Clean up in the output from the nextflow workflow**
+* Remove the workdir as well

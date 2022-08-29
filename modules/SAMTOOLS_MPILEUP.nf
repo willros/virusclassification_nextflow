@@ -1,8 +1,6 @@
 nextflow.enable.dsl=2
 
 process SAMTOOLS_MPILEUP {    
-
-    publishDir("${params.samtools_out}", pattern: "*.tsv", mode: 'copy')
  
     input:
     path(bam)
