@@ -32,6 +32,7 @@ include { KAIJU2NAMES } from './modules/KAIJU2NAMES.nf'
 include { SAMTOOLS_MPILEUP } from './modules/SAMTOOLS_MPILEUP.nf'
 include { WRANGLE_MPILEUP } from './modules/WRANGLE_MPILEUP.nf'
 include { WRANGLE_BRACKEN } from './modules/WRANGLE_BRACKEN.nf'
+include { WRANGLE_KAIJU_RAW } from './modules/WRANGLE_KAIJU_RAW.nf'
 
 
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
@@ -69,6 +70,7 @@ workflow {
     KRONA2HTML(KAIJU2KRONA.out.krona)
     KAIJU2TABLE(KAIJU.out.tree, nodes, names)
     KAIJU2NAMES(KAIJU.out.tree, nodes, names)
+    WRANGLE_KAIJU_RAW(KAIJU2NAMES.out.names, KAIJU2TABLE.out.table)
     
     // KRAKEN TAXONOMY RAW READS
     KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)

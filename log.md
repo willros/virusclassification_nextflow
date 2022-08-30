@@ -978,6 +978,10 @@ Today I will:
        
    * Output tables from everything.
 
+
+# For kaiju raw:
+only use the krona chart
+
    
    
 * Clean up the code inside the jupyter notebook. 
