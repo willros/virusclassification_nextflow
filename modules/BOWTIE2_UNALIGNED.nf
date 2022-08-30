@@ -1,9 +1,7 @@
 nextflow.enable.dsl=2
 
 process BOWTIE2_UNALIGNED {    
-    publishDir("${params.bowtie2_out}/unaligned", pattern: "*unaligned*", mode: 'copy')
-    publishDir("${params.bowtie2_out}/log", pattern: "*.log", mode: 'copy')
-
+    publishDir("${params.bowtie2_out}", pattern: "*.log", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)
@@ -22,7 +20,7 @@ process BOWTIE2_UNALIGNED {
     -2 ${reads[1]} \
     -S ${sample_id}_aligned.fastq \
     --un-conc ${sample_id}_unaligned.fastq \
-    2> ${sample_id}.bowtie.log
+    2> ${sample_id}.bowtie_raw.log
     """   
 }
 

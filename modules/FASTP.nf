@@ -2,9 +2,7 @@ nextflow.enable.dsl=2
 
 process FASTP {
     
-    publishDir("${params.fastp_out}/reads/", pattern: "*.fastq.gz", mode: 'copy')
-    publishDir("${params.fastp_out}/reports/html", pattern: "*.html", mode: 'copy')
-
+    publishDir("${params.fastp_out}", pattern: "*.html", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)

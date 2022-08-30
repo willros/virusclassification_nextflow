@@ -2,8 +2,6 @@ nextflow.enable.dsl=2
 
 process KAIJU2KRONA {
     
-    publishDir("${params.kaiju_out}/", pattern: "*.krona", mode: 'copy')
-
     input:
     tuple val(sample_id), path(tree)
     path(nodes)

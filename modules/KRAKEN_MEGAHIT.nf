@@ -15,7 +15,7 @@ process KRAKEN_MEGAHIT {
     """
     kraken2 \
     --db ${database} \
-    --report ${sample_id}.kraken2_megahit.report.tsv \
+    --report ${sample_id}_kraken2_contigs.tsv \
     --use-names \
     ${assembly}
     """  

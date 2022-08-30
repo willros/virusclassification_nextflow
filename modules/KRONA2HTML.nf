@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KRONA2HTML {
     
-    publishDir("${params.kaiju_out}/", pattern: "*.html", mode: 'copy')
+    publishDir("${params.kaiju_out}/raw", pattern: "*.html", mode: 'copy')
 
     input:
     tuple val(sample_id), path(krona)
@@ -13,7 +13,7 @@ process KRONA2HTML {
     script:
     """
     ktImportText \
-    -o ${sample_id}_krona.html \
+    -o ${sample_id}_kaiju_krona_raw.html \
     ${krona}
     """  
     

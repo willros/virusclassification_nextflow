@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KAIJU2NAMES {
     
-    publishDir("${params.kaiju_out}", pattern: "*.out", mode: 'copy')
+    publishDir("${params.kaiju_out}/raw", pattern: "*.out", mode: 'copy')
 
     input:
     tuple val(sample_id), path(tree)
@@ -20,7 +20,7 @@ process KAIJU2NAMES {
     -i ${tree} \
     -u \
     -p \
-    -o ${sample_id}_names.out
+    -o ${sample_id}_kaiju_names_raw.out
     """  
     
 }

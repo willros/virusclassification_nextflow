@@ -1,20 +1,20 @@
 nextflow.enable.dsl=2
 
-process WRANGLE_MPILEUP {
+process WRANGLE_BRACKEN {
     
     publishDir("${params.cleaned_files}", pattern: "*.csv", mode: 'copy')
 
     input:
-    tuple val(sample_id), path(coverage)
+    tuple val(sample_id), path(bracken)
     
     output:
     tuple val(sample_id), path("*.csv"), emit: csv
     
     script:
     """
-    wrangle_contig_info.py \
-    ${coverage} \
-    ${sample_id}_contigs_coverage_mpileup
+    wrangle_bracken.py \
+    ${bracken} \
+    ${sample_id}_bracken_raw
     """  
     
 }

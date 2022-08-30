@@ -926,7 +926,7 @@ docker run \
 
 **Moved the databases and the testdata to the workdir folder.**
 Maybe I do not have to mount the whole home directory now.
-try:
+## The below works!
 ```bash
 docker run \
     -ti \
@@ -937,4 +937,48 @@ docker run \
 ```
 Nextflow cannot find the databses if I dont add: /app/ to all paths to the config file
 
-To automate the nextflow process from the sequencer, write a custom ***python*** script to move files and move the results folder and name stuff accordingly. 
+###  To automate the nextflow process from the sequencer, write a custom ***python*** script to move files and move the results folder and name stuff accordingly. 
+
+# 2022-08-30
+
+Today I will:
+
+* Clean up the output from the nextflow workflow
+
+    * fastp
+        * -> log
+    
+    * bowtie2
+        * -> log from raw and contigs
+        
+    * kaiju
+        * raw
+        * wrangled
+            * plots:
+                * bar
+                * krona chart
+    
+    * kraken
+        * raw
+        * wrangled
+            * plots:
+                * bar
+   
+   * megahit
+       * raw
+       * wrangled
+           * plots:
+               * histogram of contig length
+               * Coverage of contigs
+   
+   * cat
+       * raw
+       * wrangled
+       
+       
+   * Output tables from everything.
+
+   
+   
+* Clean up the code inside the jupyter notebook. 
+* Organize python scripts and automate plotting

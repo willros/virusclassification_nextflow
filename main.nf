@@ -31,6 +31,8 @@ include { CAT_CONTIGS2NAMES } from './modules/CAT_CONTIGS2NAMES.nf'
 include { KAIJU2NAMES } from './modules/KAIJU2NAMES.nf'
 include { SAMTOOLS_MPILEUP } from './modules/SAMTOOLS_MPILEUP.nf'
 include { WRANGLE_MPILEUP } from './modules/WRANGLE_MPILEUP.nf'
+include { WRANGLE_BRACKEN } from './modules/WRANGLE_BRACKEN.nf'
+
 
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
 
@@ -71,6 +73,7 @@ workflow {
     // KRAKEN TAXONOMY RAW READS
     KRAKEN2(BOWTIE2_UNALIGNED.out.reads, kraken_db)
     BRACKEN(KRAKEN2.out.kraken_report, kraken_db)
+    WRANGLE_BRACKEN(BRACKEN.out.bracken_report)
     
     // ASSEMBLY 
     MEGAHIT(BOWTIE2_UNALIGNED.out.reads)

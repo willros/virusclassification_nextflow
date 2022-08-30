@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KAIJU2TABLE {
     
-    publishDir("${params.kaiju_out}/", pattern: "*.tsv", mode: 'copy')
+    publishDir("${params.kaiju_out}/raw", pattern: "*.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(tree)
@@ -19,7 +19,7 @@ process KAIJU2TABLE {
     -n ${names} \
     -r genus \
     -e \
-    -o ${sample_id}_table.tsv \
+    -o ${sample_id}_kaiju_table_raw.tsv \
     ${tree}
     """  
     

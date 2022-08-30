@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KRAKEN2 {
     
-    publishDir("${params.kraken2_out}/", pattern: "*.tsv", mode: 'copy')
+    publishDir("${params.kraken2_out}/raw", pattern: "*.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)
@@ -15,7 +15,7 @@ process KRAKEN2 {
     """
     kraken2 \
     --db ${database} \
-    --report ${sample_id}.kraken2.report.tsv \
+    --report ${sample_id}_kraken2_raw.tsv \
     --use-names \
     --paired \
     ${reads[0]} \
