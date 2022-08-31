@@ -986,3 +986,8 @@ only use the krona chart
    
 * Clean up the code inside the jupyter notebook. 
 * Organize python scripts and automate plotting
+
+# 2022-08-31
+
+Add version to each software in the Dockerfile and add altair_saver from conda. 
+ - DONE
