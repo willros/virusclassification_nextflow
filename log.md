@@ -991,3 +991,79 @@ only use the krona chart
 
 Add version to each software in the Dockerfile and add altair_saver from conda. 
  - DONE
+ 
+### What to save in the database?
+
+TO assemble genomes:
+
+haploflow:
+https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02426-8
+
+RagTag:
+https://github.com/malonge/RagTag
+
+install ragtag:
+```bash
+mamba install -c bioconda ragtag
+```
+
+## trying to:
+this process: 
+https://www.youtube.com/watch?v=ZhBx1fOk4Nc
+
+Workflow:
+```bash
+# bowtie2 index on reference
+# align fastq PE to index
+# samtools sort sorted bam
+# samtoools mpileup
+# ivar consensus
+```
+
+align the fastq reads to bat alphacorona virus genome with bowtie2.
+- However, NO reads aligned... why?? 
+Try to the raft valley virus genome:
+- 4 % reads mapped to this (samtools flagstat raft.sam)
+
+install ivar:
+```bash
+mamba install -c bioconda ivar
+```
+
+run ivar consensus:
+```bash
+samtools mpileup -aa -A -d 1000000 -q 20 raft.bam | ivar consensus -t .6 -m 2 -p consensus
+```
+That worked and produced a consensus file which when runned by blast matched 99% to raft valley fever virus. 
+
+
+## Trying to use nucmer and mummer to align contigs to reference:
+https://taylorreiter.github.io/2019-05-11-Visualizing-NUCmer-Output/
+```bash
+mamba intstall -c bioconda mummer
+```
+
+```bash
+nucmer --mum bat_alphacoronavirus.fa 1-bat-alpha.fa -p 1-bat
+
+delta-filter -l 1000 -q test.delta > test_filter.delta
+
+show-coords -c -l -L 1000 -r -T test_filter.delta > test_filter_coords.txt
+```
+The above **DID NOT** work.
+
+### Trying to use minimap2:
+```bash
+minimap2 -a bat_alphacoronavirus.fa bat-alpha-contig.fa > bat-alpha.sam
+
+samtools mpileup -aa -A -d 1000000 -q 20 bat-alpha.sam | ivar consensus -t .6 -m 2 -p bat_consensus
+
+```
+The above did **NOT** work! 
+
+```bash
+minimap2 -ax asm5 bat_alphacoronavirus.fa bat-alpha-contig.fa > alignment_bat.sam
+samtools mpileup -aa -A -d 1000000 -q 1 alignment_bat.sam | ivar consensus -t .1 -m 1 -p alignment_consensus
+
+```
+The above did **NOT** work! 
