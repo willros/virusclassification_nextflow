@@ -34,6 +34,8 @@ include { WRANGLE_MPILEUP } from './modules/WRANGLE_MPILEUP.nf'
 include { WRANGLE_BRACKEN } from './modules/WRANGLE_BRACKEN.nf'
 include { WRANGLE_KAIJU_RAW } from './modules/WRANGLE_KAIJU_RAW.nf'
 include { WRANGLE_KAIJU_MEGAHIT_CAT } from './modules/WRANGLE_KAIJU_MEGAHIT_CAT.nf'
+include { CHECKV_MEGAHIT } from './modules/CHECKV_MEGAHIT.nf'
+
 
 
 
@@ -57,6 +59,9 @@ kraken_db = channel.value( params.kraken_db_standard )
 // cat
 cat_database = channel.value( params.CAT_database )
 cat_taxonomy = channel.value( params.CAT_taxonomy )
+
+// checkv
+checkv_database = channel.value ( params.checkv )
 
 
 
@@ -84,6 +89,9 @@ workflow {
     MEGAHIT2LENGTH(MEGAHIT.out.assembly)
     // METASPADES(BOWTIE2_UNALIGNED.out.reads) 
     // METASPADES2LENGTH(METASPADES.out.contigs)
+    
+    // ASSEMBLY QUALITY
+    CHECKV_MEGAHIT(MEGAHIT.out.assembly, checkv_database)
     
     // KAIJU TAXONOMY CONTIGS MEGAHIT
     KAIJU_MEGAHIT(MEGAHIT.out.assembly, nodes, fmi)

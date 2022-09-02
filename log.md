@@ -636,8 +636,8 @@ mamba install checkv
 checkv download_database ./
 
 checkv end_to_end \
-    -d checkv-db-v1.3/ \
-    /home/viller/virusclass/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
+    -d /home/viller/virusclass/virusclassification_nextflow/databases/checkv-db-v1.4 \
+    virusclassification_nextflow/results/megahit/Bat-Guano-15_S6_L001_R.contigs.fa \
     test_checkv \
     -t 50
     
@@ -1067,3 +1067,69 @@ samtools mpileup -aa -A -d 1000000 -q 1 alignment_bat.sam | ivar consensus -t .1
 
 ```
 The above did **NOT** work! 
+
+
+
+
+# New approach:
+### Maybe the unclassified reads from especially the contigs are the MOST interesting! do NOT filter those out from the CAT file. 
+
+Removed the `-u`parameter from the KAIJU_MEGAHIT2NAMES.nf module (to include the unclassified)
+
+commentet out:
+```python
+ # .loc[lambda x: x.classification != 'no taxid assigned']
+ # .loc[lambda x: x['superkingdom'] != 'no support']
+ # .loc[lambda x: x['phylum'] != 'no support']
+```
+in the wrangle_kaiju_megahit_cat.py file. 
+Look at the outcome from this. 
+
+Added back the `-u` to kaiju, because the output file was not usable without it. 
+
+
+# 2022-09-01
+
+Now the `wrangle_kaiju_megahit_cat.py` produces a merged csv file with all the contigs, even the unassigned ones. Maybe split this up into assigned and unassigned? 
+
+## bandage to visualize the megahit contigs:
+https://github.com/voutcn/megahit/wiki/Visualizing-MEGAHIT's-contig-graph
+
+
+### adding checkv to the nextflow pipeline
+
+Test to build new image from new env file. 
+```bash
+docker build --tag virushanter_new .
+```
+The above command yielded:
+`Sending build context to Docker daemon 50 gb`
+Why? 
+
+Moved the Dockerfile and the env.yaml into its own folder:
+```bash
+mkdir docker
+mv Dockerfile docker/
+mv env.yaml docker/
+```
+
+DID NOT WORK BECAUSE pip and wroing channels. Updated the yaml file and try again! 
+
+Trying:
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v $HOME:$HOME \
+    -v $HOME/virusclass/virusclassification_nextflow:/app \
+    virushanter_new \
+    nextflow run main.nf
+```
+IT Works! 
+
+# 2022-09-02
+
+Starting to build the Flask application!
+
+Maybe have to build locally (but Dockerize it), in order to test it properly.
+Starting with that. 

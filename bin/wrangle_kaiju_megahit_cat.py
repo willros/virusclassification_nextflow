@@ -24,9 +24,9 @@ def wrangle_kaiju_megahit_cat(kaiju: str,
     
     megahit = pd.read_csv(megahit)
 
-    kaiju = (kaiju_raw.merge(megahit, on='name')
+    kaiju = (kaiju_raw.merge(megahit, on='name', how='outer')
      .sort_values('length', ascending=False)
-     .dropna()
+     #.dropna()
      .assign(taxonomy=lambda x: x.taxonomy.str.split(';').str[:-1])
      .assign(last_level_kaiju=lambda x: x.taxonomy.str[-1])
      .assign(second_level_kaiju=lambda x: x.taxonomy.str[-2])
@@ -44,14 +44,16 @@ def wrangle_kaiju_megahit_cat(kaiju: str,
                       'species': 'last_level_cat',
                       'genus': 'second_level_cat',
                       'family': 'third_level_cat'})
-     .loc[lambda x: x.classification != 'no taxid assigned']
-     .loc[lambda x: x['superkingdom'] != 'no support']
-     .loc[lambda x: x['phylum'] != 'no support']
-     .drop(columns=['classification', 'lineage', 'lineage scores'])
+    # .loc[lambda x: x.classification != 'no taxid assigned']
+    # .loc[lambda x: x['superkingdom'] != 'no support']
+    # .loc[lambda x: x['phylum'] != 'no support']
+     .drop(columns=['lineage', 'lineage scores'])
      .assign(kingdom_cat=lambda x: x['superkingdom'].str[:-6])
      .drop(columns='superkingdom'))
 
-    merged = kaiju.merge(cat, on='name')
+    merged = (kaiju.merge(cat, on='name', how='outer')
+              .sort_values('length', ascending=False))
+    
     merged.to_csv(f'{name}.csv', index=False)
 
 if __name__ == '__main__':

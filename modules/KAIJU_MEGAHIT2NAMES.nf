@@ -18,8 +18,8 @@ process KAIJU_MEGAHIT2NAMES {
     -t ${nodes} \
     -n ${names} \
     -i ${tree} \
-    -u \
     -p \
+    -u \
     -o ${sample_id}_names_megahit.out
     """  
     
