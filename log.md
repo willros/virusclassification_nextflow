@@ -1133,3 +1133,5 @@ Starting to build the Flask application!
 
 Maybe have to build locally (but Dockerize it), in order to test it properly.
 Starting with that. 
+
+`Moved the whole folder structure locally`
