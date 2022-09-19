@@ -35,6 +35,8 @@ include { WRANGLE_BRACKEN } from './modules/WRANGLE_BRACKEN.nf'
 include { WRANGLE_KAIJU_RAW } from './modules/WRANGLE_KAIJU_RAW.nf'
 include { WRANGLE_KAIJU_MEGAHIT_CAT } from './modules/WRANGLE_KAIJU_MEGAHIT_CAT.nf'
 include { CHECKV_MEGAHIT } from './modules/CHECKV_MEGAHIT.nf'
+include { PLOT_CONTIG_COVERAGE } from './modules/PLOT_CONTIG_COVERAGE.nf'
+
 
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
 
@@ -118,6 +120,7 @@ workflow {
     // COVERAGE OF CONTIGS
     SAMTOOLS_MPILEUP(SAMTOOLS.out.bam, SAMTOOLS.out.sample_id)
     WRANGLE_MPILEUP(SAMTOOLS_MPILEUP.out.coverage)
+    PLOT_CONTIG_COVERAGE(WRANGLE_MPILEUP.out.csv)
     
     // MERGE KAIJU, MEGAHIT AND CAT OUTPUTS
     WRANGLE_KAIJU_MEGAHIT_CAT(KAIJU_MEGAHIT2NAMES.out.names, CAT_CONTIGS2NAMES.out.names, MEGAHIT2LENGTH.out.csv)

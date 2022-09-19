@@ -1188,3 +1188,23 @@ workflow.onComplete = {
     println "Command line: $workflow.commandLine"
 }
 ```
+
+- Adding coverage plot script to the bin folder. 
+- Adding altair and altair_saver to docker file env.yaml
+
+rebuilding docker image with altair and altair_saver:
+```bash
+docker build --tag virushanter_altair .
+```
+
+Running the workflow with the new plot module and the new image:
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf
+```
+
+Everything works! 
