@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process METASPADES {
     
-    publishDir("${params.metaspades_out}/", pattern: "*.fasta", mode: 'copy')
+    publishDir("results/${sample_id}/metaspades", pattern: "*.fasta", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)

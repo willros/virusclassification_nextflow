@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KRONA2HTML {
     
-    publishDir("${params.kaiju_out}/raw", pattern: "*.html", mode: 'copy')
+    publishDir("results/${sample_id}/kaiju/raw", pattern: "*.html", mode: 'copy')
 
     input:
     tuple val(sample_id), path(krona)

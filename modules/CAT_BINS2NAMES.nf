@@ -1,7 +1,7 @@
 nextflow.enable.dsl=2
 
 process CAT_BINS2NAMES {    
-    publishDir("${params.cat_out}", pattern: "*.txt", mode: 'copy')
+    publishDir("results/${sample_id}/cat", pattern: "*.txt", mode: 'copy')
 
     input:
     tuple val(sample_id), path(classification)

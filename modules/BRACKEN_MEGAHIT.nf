@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process BRACKEN_MEGAHIT {
     
-    publishDir("${params.kraken2_out}/megahit", pattern: "*species.tsv", mode: 'copy')
+    publishDir("results/${sample_id}/kraken/megahit", pattern: "*species.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(kraken_report)

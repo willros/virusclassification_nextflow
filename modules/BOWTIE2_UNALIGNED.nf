@@ -1,7 +1,7 @@
 nextflow.enable.dsl=2
 
 process BOWTIE2_UNALIGNED {    
-    publishDir("${params.bowtie2_out}", pattern: "*.log", mode: 'copy')
+    publishDir("results/${sample_id}/bowtie2", pattern: "*.log", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)
@@ -10,7 +10,6 @@ process BOWTIE2_UNALIGNED {
     output:
     tuple val(sample_id), path('*unaligned*'), emit: reads
     path('*.log'), emit: log
-    
     
     script:
     """

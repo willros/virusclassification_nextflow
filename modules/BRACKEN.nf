@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process BRACKEN {
     
-    publishDir("${params.kraken2_out}/raw", pattern: "*species.tsv", mode: 'copy')
+    publishDir("results/${sample_id}/kraken/raw", pattern: "*species.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(kraken_report)

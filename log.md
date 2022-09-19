@@ -1120,8 +1120,7 @@ Trying:
 docker run \
     -ti \
     --rm \
-    -v $HOME:$HOME \
-    -v $HOME/virusclass/virusclassification_nextflow:/app \
+    -v "${PWD}":/app \
     virushanter_new \
     nextflow run main.nf
 ```
@@ -1135,3 +1134,57 @@ Maybe have to build locally (but Dockerize it), in order to test it properly.
 Starting with that. 
 
 `Moved the whole folder structure locally`
+
+# 2022-09-19 
+
+- Add unique sampleid folder after results/ folder to separate between runs. E.g. results/sample_id/bowtie2/
+- Add clean: true to nextflow.config file to the finalzied version. 
+- Add max threads to each process 
+- Add a log file with date and nextflow output when the workflow is complete 
+
+
+Changed the docker run command from: 
+```bash
+
+docker run \
+    -ti \
+    --rm \
+    -v $HOME:$HOME \
+    -v $HOME/virusclass/virusclassification_nextflow:/app \
+    virushanter_new \
+    nextflow run main.nf
+    
+#to
+
+docker run \
+    -ti \
+    --rm \
+    -v "${PWD}":/app \
+    virushanter_new \
+    nextflow run main.nf
+
+    
+```
+Because it could not find the main.nf file.
+The above WORKS. 
+
+* Remove the outputdirs in the nextflow.config file and add the publishdir path directly to each module. E.g:
+
+```bash
+# instead of 
+publishDir("${params.fastp_out}", pattern: "*.html", mode: 'copy')
+
+# do
+publishDir("results/${sample_id}/fastp", pattern: "*.html", mode: 'copy')
+```
+
+* Changed every module to include the sampleID now. 
+
+- Add workflow.onComplete to nextflow.config:
+```bash
+workflow.onComplete = {
+    // any workflow property can be used here
+    println "Pipeline complete"
+    println "Command line: $workflow.commandLine"
+}
+```

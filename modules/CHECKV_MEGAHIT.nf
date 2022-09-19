@@ -1,7 +1,7 @@
 nextflow.enable.dsl=2
 
 process CHECKV_MEGAHIT {    
-    publishDir("${params.checkv_out}", pattern: "*summary.tsv", mode: 'copy')
+    publishDir("results/${sample_id}/checkv", pattern: "*summary.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(assembly)

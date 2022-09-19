@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process MEGAHIT {
 
-    publishDir("${params.megahit_out}/", pattern: "${sample_id}.contigs.fa", mode: 'copy')
+    publishDir("results/${sample_id}/megahit", pattern: "${sample_id}.contigs.fa", mode: 'copy')
 
 
     input:

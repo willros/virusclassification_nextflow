@@ -36,9 +36,6 @@ include { WRANGLE_KAIJU_RAW } from './modules/WRANGLE_KAIJU_RAW.nf'
 include { WRANGLE_KAIJU_MEGAHIT_CAT } from './modules/WRANGLE_KAIJU_MEGAHIT_CAT.nf'
 include { CHECKV_MEGAHIT } from './modules/CHECKV_MEGAHIT.nf'
 
-
-
-
 // include { CAT_CONTIGS2SUMMARY } from './modules/CAT_CONTIGS2SUMMARY.nf'
 
 
@@ -46,7 +43,7 @@ include { CHECKV_MEGAHIT } from './modules/CHECKV_MEGAHIT.nf'
 files = channel.fromFilePairs( params.fastq_in, checkIfExists: true )
 
 // bowtie for saving unaligned
-index = channel.value( params.index )
+bowtie_index = channel.value( params.bowtie_index )
 
 // kaiju
 nodes = channel.value( params.kaiju_nodes_refseq )
@@ -64,12 +61,11 @@ cat_taxonomy = channel.value( params.CAT_taxonomy )
 checkv_database = channel.value ( params.checkv )
 
 
-
 workflow {
 
     // PREPROCESS
     FASTP(files)
-    BOWTIE2_UNALIGNED(FASTP.out.reads, index)
+    BOWTIE2_UNALIGNED(FASTP.out.reads, bowtie_index)
     
     // KAIJU TAXONOMY RAW READS
     KAIJU(BOWTIE2_UNALIGNED.out.reads, nodes, fmi)

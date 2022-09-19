@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process MEGAHIT2LENGTH {
     
-    publishDir("${params.megahit_out}/", pattern: "*.csv", mode: 'copy')
+    publishDir("results/${sample_id}/megahit", pattern: "*.csv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(assembly)

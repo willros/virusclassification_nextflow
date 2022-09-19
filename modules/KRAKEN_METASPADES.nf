@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KRAKEN_METASPADES {
     
-    publishDir("${params.kraken2_out}/metaspades", pattern: "*.tsv", mode: 'copy')
+    publishDir("results/${sample_id}/kraken/metaspades", pattern: "*.tsv", mode: 'copy')
 
     input:
     val(sample_id)

@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process FASTP {
     
-    publishDir("${params.fastp_out}", pattern: "*.html", mode: 'copy')
+    publishDir("results/${sample_id}/fastp", pattern: "*.html", mode: 'copy')
 
     input:
     tuple val(sample_id), path(reads)
@@ -20,7 +20,7 @@ process FASTP {
     -O ${sample_id}_filt_R2.fastq.gz \
     --detect_adapter_for_pe --length_required 30 \
     --cut_front --cut_tail --cut_mean_quality 10 \
-    --html ${sample_id}.fastp.html \
+    --html ${sample_id}.fastp.html 
     """  
     
 }

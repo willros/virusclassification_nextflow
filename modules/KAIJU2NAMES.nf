@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KAIJU2NAMES {
     
-    publishDir("${params.kaiju_out}/raw", pattern: "*.out", mode: 'copy')
+    publishDir("results/${sample_id}/kaiju/raw", pattern: "*.out", mode: 'copy')
 
     input:
     tuple val(sample_id), path(tree)

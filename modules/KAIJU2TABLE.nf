@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process KAIJU2TABLE {
     
-    publishDir("${params.kaiju_out}/raw", pattern: "*.tsv", mode: 'copy')
+    publishDir("results/${sample_id}/kaiju/raw", pattern: "*.tsv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(tree)

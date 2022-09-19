@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process METASPADES2LENGTH {
     
-    publishDir("${params.metaspades_out}/", pattern: "*.csv", mode: 'copy')
+    publishDir("results/${sample_id}/metaspades", pattern: "*.csv", mode: 'copy')
 
     input:
     tuple val(sample_id), path(contigs)
