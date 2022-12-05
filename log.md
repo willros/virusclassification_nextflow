@@ -1208,3 +1208,23 @@ docker run \
 ```
 
 Everything works! 
+
+
+# 2022-12-05
+
+Started to run on the real data set from the MiSeq.
+
+Some samples cannot be runned through BRACKEN_MEGAHIT (it cannot find the input file, although it is there.)
+* No reads found in the input file...
+
+* Removing BRACKEN_MEGAHIT for now to see if the pipeline runs
+
+#### remove the METABAT2 as well? Maybe it is not needed. 
+Seems like I dont use that file either way.
+
+#### maybe add optional: true to the output?
+
+
+### Fix the number of CPU and memory for the whole pipeline
+When I runned the pipeline with multiple samples, it could not allocate the right amount of mem and cpus and crashed.
+https://github.com/nf-core/methylseq/issues/89

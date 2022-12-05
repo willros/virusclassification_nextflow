@@ -100,7 +100,8 @@ workflow {
 
     // KRAKEN TAXONOMY CONTIGS READS MEGAHIT
     KRAKEN_MEGAHIT(MEGAHIT.out.assembly, kraken_db)
-    BRACKEN_MEGAHIT(KRAKEN_MEGAHIT.out.kraken_report, kraken_db)
+    // removing BRACKEN_MEGAHIT FOR NOW
+    // BRACKEN_MEGAHIT(KRAKEN_MEGAHIT.out.kraken_report, kraken_db)
     
     // KRAKEN TAXONOMY CONTIGS READS METASPADES
     // KRAKEN_METASPADES(METASPADES.out.sample_id, METASPADES.out.contigs, kraken_db)
@@ -110,6 +111,7 @@ workflow {
     CONTIGS2INDEX(MEGAHIT.out.assembly)
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
+    
     METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
     
     // CAT TAXONOMY ON CONTIGS
