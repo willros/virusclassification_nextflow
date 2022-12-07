@@ -112,7 +112,8 @@ workflow {
     BOWTIE2_ALIGN2CONTIGS(BOWTIE2_UNALIGNED.out.reads, CONTIGS2INDEX.out.index)
     SAMTOOLS(BOWTIE2_ALIGN2CONTIGS.out.sam)
     
-    METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
+    // Removing METABAT2 for now	
+    //  METABAT2(MEGAHIT.out.assembly, SAMTOOLS.out.bam)
     
     // CAT TAXONOMY ON CONTIGS
     CAT_CONTIGS(MEGAHIT.out.assembly, cat_database, cat_taxonomy)

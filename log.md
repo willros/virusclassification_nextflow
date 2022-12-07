@@ -1233,4 +1233,8 @@ Perhaps this could be useful to add to the config file:
 ```bash
 executor.$local.cpus = 8
 executor.$local.memory = '32 GB'
-````
+```
+
+Adding the above to the nextflow.config set the ceiling so the pipeline could run with multiple samples!
+
+#### Removed METABAT2 process from the main.nf
