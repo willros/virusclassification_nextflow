@@ -1228,3 +1228,9 @@ Seems like I dont use that file either way.
 ### Fix the number of CPU and memory for the whole pipeline
 When I runned the pipeline with multiple samples, it could not allocate the right amount of mem and cpus and crashed.
 https://github.com/nf-core/methylseq/issues/89
+
+Perhaps this could be useful to add to the config file:
+```bash
+executor.$local.cpus = 8
+executor.$local.memory = '32 GB'
+````
