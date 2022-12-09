@@ -1238,3 +1238,17 @@ executor.$local.memory = '32 GB'
 Adding the above to the nextflow.config set the ceiling so the pipeline could run with multiple samples!
 
 #### Removed METABAT2 process from the main.nf
+
+# 2022-12-09
+
+### Changing `wrangle_bracken.py` to NOT drop "new_est_reads" column.
+
+### Changed `wrangle_kaiju_raw` to:
+```python
+    kaiju_table = (pd.read_csv(table_file,
+                              sep='\t',
+                              usecols=[1, 2, 3, 4]) # add column 2: the number of reads
+```
+Included column 2 which contains number of reads
+
+## The above worked and included the total number of reads!

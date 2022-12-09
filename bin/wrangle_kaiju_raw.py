@@ -23,7 +23,7 @@ def wrangle_kaiju_raw(names_file: str,
     
     kaiju_table = (pd.read_csv(table_file,
                               sep='\t',
-                              usecols=[1, 3, 4])
+                              usecols=[1, 2, 3, 4]) # add column 2: the number of reads
                    .dropna()
                    .assign(taxon_id=lambda x: x.taxon_id.astype(int))
                    .assign(percent=lambda x: x.percent / 100)

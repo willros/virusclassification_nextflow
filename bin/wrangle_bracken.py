@@ -25,7 +25,7 @@ def wrangle_bracken_species_raw(file: str, name: str):
                  .assign(domain=lambda x: x['domain'].fillna(method='ffill'))
                  .dropna()
                  .loc[lambda x: ~x.name.str.contains('cellular')]
-                 .drop(columns=['new_est_reads'])
+                 #.drop(columns=['new_est_reads'])
                 )
     
     bracken.to_csv(f'{name}.csv', index=False)
