@@ -1339,3 +1339,5 @@ Command error:
 
     merged = kaiju.merge(cat, on='name', how='outer').sort_values('length', ascending=False)
 ```
+
+### Or add fillna(" ") to convert NaN to str to mitigate the problem

@@ -50,6 +50,8 @@ def wrangle_kaiju_megahit_cat(kaiju: str,
      .drop(columns=['lineage', 'lineage scores'])
            
     # DROPPED the if CAT does not have any output
+    # OR add fillna(" ") to have str instead of NaN
+     .fillna(" ")
      .assign(kingdom_cat=lambda x: x['superkingdom'].str[:-6])
      .drop(columns='superkingdom')
     )
