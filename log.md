@@ -1252,3 +1252,90 @@ Adding the above to the nextflow.config set the ceiling so the pipeline could ru
 Included column 2 which contains number of reads
 
 ## The above worked and included the total number of reads!
+
+
+# 230220
+## Running data from nano-flowcell 
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf
+```
+
+
+### Got the following error:
+
+####  Because:
+* because CAT could not classify any contigs
+
+```bash
+Error executing process > 'WRANGLE_KAIJU_MEGAHIT_CAT (1)'
+
+Caused by:
+  Process `WRANGLE_KAIJU_MEGAHIT_CAT (1)` terminated with an error exit status (1)
+
+Command executed:
+
+  wrangle_kaiju_megahit_cat.py     sample_01_S8_names_megahit.out     CAT_sample_01_S8_contigs_names.txt     sample_01_S8.csv     sample_01_S8_cat_kaiju_merged
+
+Command exit status:
+  1
+
+Command output:
+  (empty)
+
+Command error:
+  Traceback (most recent call last):
+    File "/app/bin/wrangle_kaiju_megahit_cat.py", line 60, in <module>
+      fire.Fire(wrangle_kaiju_megahit_cat)
+    File "/opt/conda/lib/python3.9/site-packages/fire/core.py", line 141, in Fire
+      component_trace = _Fire(component, args, parsed_flag_args, context, name)
+    File "/opt/conda/lib/python3.9/site-packages/fire/core.py", line 466, in _Fire
+      component, remaining_args = _CallAndUpdateTrace(
+    File "/opt/conda/lib/python3.9/site-packages/fire/core.py", line 681, in _CallAndUpdateTrace
+      component = fn(*varargs, **kwargs)
+    File "/app/bin/wrangle_kaiju_megahit_cat.py", line 42, in wrangle_kaiju_megahit_cat
+      cat = (cat_raw
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/frame.py", line 4512, in assign
+      data[k] = com.apply_if_callable(v, data)
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/common.py", line 358, in apply_if_callable
+      return maybe_callable(obj, **kwargs)
+    File "/app/bin/wrangle_kaiju_megahit_cat.py", line 51, in <lambda>
+      .assign(kingdom_cat=lambda x: x['superkingdom'].str[:-6])
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/generic.py", line 5575, in __getattr__
+      return object.__getattribute__(self, name)
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/accessor.py", line 182, in __get__
+      accessor_obj = self._accessor(obj)
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/strings/accessor.py", line 177, in __init__
+      self._inferred_dtype = self._validate(data)
+    File "/opt/conda/lib/python3.9/site-packages/pandas/core/strings/accessor.py", line 231, in _validate
+      raise AttributeError("Can only use .str accessor with string values!")
+  AttributeError: Can only use .str accessor with string values!
+```
+
+
+### Changed the wrangle_kaiju_megahit.py to:
+
+* dropped the lines below the "DROPPED below"
+
+```python
+    cat = (cat_raw
+     .rename(columns={'# contig': 'name',
+                      'species': 'last_level_cat',
+                      'genus': 'second_level_cat',
+                      'family': 'third_level_cat'})
+    # .loc[lambda x: x.classification != 'no taxid assigned']
+    # .loc[lambda x: x['superkingdom'] != 'no support']
+    # .loc[lambda x: x['phylum'] != 'no support']
+     .drop(columns=['lineage', 'lineage scores'])
+           
+    # DROPPED the below for testing
+    # .assign(kingdom_cat=lambda x: x['superkingdom'].str[:-6])
+    # .drop(columns='superkingdom')
+    )
+
+    merged = kaiju.merge(cat, on='name', how='outer').sort_values('length', ascending=False)
+```

@@ -48,11 +48,13 @@ def wrangle_kaiju_megahit_cat(kaiju: str,
     # .loc[lambda x: x['superkingdom'] != 'no support']
     # .loc[lambda x: x['phylum'] != 'no support']
      .drop(columns=['lineage', 'lineage scores'])
+           
+    # DROPPED the if CAT does not have any output
      .assign(kingdom_cat=lambda x: x['superkingdom'].str[:-6])
-     .drop(columns='superkingdom'))
+     .drop(columns='superkingdom')
+    )
 
-    merged = (kaiju.merge(cat, on='name', how='outer')
-              .sort_values('length', ascending=False))
+    merged = kaiju.merge(cat, on='name', how='outer').sort_values('length', ascending=False)
     
     merged.to_csv(f'{name}.csv', index=False)
 
