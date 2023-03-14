@@ -1341,3 +1341,18 @@ Command error:
 ```
 
 ### Or add fillna(" ") to convert NaN to str to mitigate the problem
+
+# 230314
+* /home/miseq-runs contains all the fastq files from the miseqruns
+* added results from previous virusclassification to pandemic-preparedness/results_virusclassification_nextflow
+
+## Running virusclassification on sample09-16 from the nano-flowcell runned 230306
+
+```bash
+docker run \
+    -ti \
+    --rm \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf
+```
