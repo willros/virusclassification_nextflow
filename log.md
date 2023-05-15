@@ -1354,5 +1354,123 @@ docker run \
     --rm \
     -v "${PWD}":/app \
     virushanter_altair \
-    nextflow run main.nf
+    nextflow run main.nf -profile standard
+```
+
+Run the command with nextflow run main.nf -profile standard
+* Still eats up all memory...
+
+## Trying again
+```bash
+docker run \
+    -ti \
+    --rm \
+    --cpus 20 \
+    --memory 100gb \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf 
+```
+
+
+### added maxForks to the config file to see if that keeps it from taking all resources
+
+# 20230315
+
+* Added the following to the nextflow.config
+```bash
+executor.$local.cpus = 1
+executor.$local.memory = '1 GB'
+executor.$local.maxForks = 2
+executor.$local.queueSize = 2
+```
+
+Did not work...
+### trying to run with docker run --cpus 5 --memory 8gb
+```bash
+process {
+    executor = "local"
+    cpus = 1
+    memory = "1 GB"
+    maxForks = 2
+    queueSize = 2
+}
+```
+# 230327
+
+Running virusclass on sample 15 and 16.
+* Trying new command to restrict mem usage:
+```bash
+docker run \
+    -ti \
+    --rm \
+    --cpus 20 \
+    --memory 130gb \
+    --memory-swap 130gb \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf 
+```
+
+## The above worked but took more time. Maybe It is possible to run all the samples at once now?
+
+
+# 230512
+
+Sequencing on regular flowcell v2 76x2 BP, 230510_M00568_0519_000000000-KV26F.
+Annes project with hanta virus.
+
+Most of the reads (90%) ended up in sample05.
+Makes the analysis difficult. 
+Start with Undetermined to see what is in there? Or take that last?
+
+### Aim with the analysis:
+* Assemble genomes for each sample
+* Look for contaminants (run the virushanter pipeline)
+
+### Startin with samples (evertything except sample05 and Undetermined):
+sample01_S1_R1_001.fastq.gz
+sample01_S1_R2_001.fastq.gz
+sample02_S2_R1_001.fastq.gz
+sample02_S2_R2_001.fastq.gz
+sample03_S3_R1_001.fastq.gz
+sample03_S3_R2_001.fastq.gz
+sample04_S4_R1_001.fastq.gz
+sample04_S4_R2_001.fastq.gz
+sample06_S6_R1_001.fastq.gz
+sample06_S6_R2_001.fastq.gz
+sample07_S7_R1_001.fastq.gz
+sample07_S7_R2_001.fastq.gz
+sample08_S8_R1_001.fastq.gz
+sample08_S8_R2_001.fastq.gz
+
+### Running with the following:
+```bash
+docker run \
+    -ti \
+    --rm \
+    --cpus 20 \
+    --memory 130gb \
+    --memory-swap 130gb \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf 
+```
+DONE in ~3,5 H!
+* Moving the results to: /home/viller/clinical-genomics/pandemic-preparedness/results_virusclassification_nextflow/230510_M00568_0519_000000000-KV26F
+
+
+# 20230515
+
+Running on sample05 from the 230510_M00568_0519_000000000-KV26F run:
+```bash
+docker run \
+    -ti \
+    --rm \
+    --cpus 20 \
+    --memory 130gb \
+    --memory-swap 130gb \
+    -v "${PWD}":/app \
+    virushanter_altair \
+    nextflow run main.nf 
 ```
